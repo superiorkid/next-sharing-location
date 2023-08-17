@@ -3,17 +3,22 @@ import Link from "next/link";
 
 import LocationCardImageSlider from "@/components/location-card-image-slider";
 
-function LocationCard() {
+interface LocationCardProps {
+  name: string;
+  address: string;
+  images: string[];
+  slug: string;
+}
+
+function LocationCard({ name, address, images, slug }: LocationCardProps) {
   return (
     <div className="w-full h-auto overflow-hidden rounded-md flex flex-col space-y-1.5">
       <div>
-        <LocationCardImageSlider />
+        <LocationCardImageSlider images={images} />
       </div>
-      <Link href="/location/detail-lokasi">
-        <h4 className="font-semibold">Warung makan minang</h4>
-        <span className="text-sm text-gray-700 dark:invert">
-          Penye bat, sakra
-        </span>
+      <Link href={`/location/${slug}`}>
+        <h4 className="font-semibold">{name}</h4>
+        <span className="text-sm text-gray-700 dark:invert">{address}</span>
       </Link>
     </div>
   );

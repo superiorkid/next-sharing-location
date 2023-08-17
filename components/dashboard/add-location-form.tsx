@@ -25,12 +25,15 @@ import { addLocation } from "@/_actions/location.action";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { Category } from ".prisma/client";
+import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
+import { useRouter } from "next/navigation";
 
 interface AddLocationFormProps {
   categories: Category[] | null;
 }
 
 function AddLocationForm({ categories }: AddLocationFormProps) {
+  const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const form = useForm<TLocation>({
@@ -53,10 +56,10 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
     formData.append("description", values.description);
     formData.append("street", values.street);
     formData.append("address", values.address);
-    formData.append("categpry", values.category);
+    formData.append("category", values.category);
 
     for (let value of values.photos as File[]) {
-      formData.append("images", value);
+      formData.append("images[]", value);
     }
 
     startTransition(() => {
@@ -66,6 +69,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             title: "Add new location",
             description: "Successfully added new location",
           });
+          router.push("/explore");
         })
         .catch((error) => {
           toast({
@@ -174,7 +178,11 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
                 className="w-full h-10 rounded-md px-3 bg-background border"
               >
                 <FormControl>
-                  <option disabled={isPending} selected>
+                  <option
+                    disabled={isPending}
+                    selected
+                    className="text-gray-600"
+                  >
                     Pilih kategori
                   </option>
                 </FormControl>
@@ -244,8 +252,19 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           </span>
         </FormItem>
 
-        <Button type="submit" className="max-w-[187px] w-full">
-          Add Location
+        <Button
+          type="submit"
+          className="max-w-[187px] w-full"
+          disabled={isPending}
+        >
+          {isPending ? (
+            <span>
+              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Adding
+              location...
+            </span>
+          ) : (
+            "Add Location"
+          )}
         </Button>
       </form>
     </Form>

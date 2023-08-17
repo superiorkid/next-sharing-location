@@ -2,6 +2,12 @@ import React from "react";
 
 import Header from "@/components/header";
 import Container from "@/components/container";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About - Media Berbagi Lokasi",
+  description: "Mengenai website yang dibuat",
+};
 
 function Page() {
   return (

@@ -7,8 +7,13 @@ import { Pagination } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/pagination";
+import { imageKitLoader } from "@/lib/imagekit";
 
-function LocationCardImageSlider() {
+interface LocationCardImageSliderProps {
+  images: string[];
+}
+
+function LocationCardImageSlider({ images }: LocationCardImageSliderProps) {
   return (
     <Swiper
       slidesPerView={1}
@@ -17,33 +22,21 @@ function LocationCardImageSlider() {
       pagination={{ dynamicBullets: true }}
       loop
     >
-      <SwiperSlide>
-        <Image
-          src="https://picsum.photos/500/500"
-          alt="contoh gambar"
-          width={500}
-          height={500}
-          className="object-cover w-full rounded-md hover:scale-105"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Image
-          src="https://picsum.photos/500/500"
-          alt="contoh gambar"
-          width={500}
-          height={500}
-          className="object-cover w-full rounded-md hover:scale-105"
-        />
-      </SwiperSlide>
-      <SwiperSlide>
-        <Image
-          src="https://picsum.photos/500/500"
-          alt="contoh gambar"
-          width={500}
-          height={500}
-          className="object-cover w-full rounded-md hover:scale-105"
-        />
-      </SwiperSlide>
+      {images.map((image, index) => (
+        <React.Fragment key={index}>
+          <SwiperSlide>
+            <Image
+              loader={imageKitLoader}
+              priority
+              src={image}
+              alt="contoh gambar"
+              width={500}
+              height={500}
+              className="object-cover w-full rounded-md hover:scale-105 h-[256px]"
+            />
+          </SwiperSlide>
+        </React.Fragment>
+      ))}
     </Swiper>
   );
 }

@@ -1,6 +1,6 @@
 "use server";
 
-import { Location } from ".prisma/client";
+import { Category, Location } from ".prisma/client";
 import categorySchema, {
   TCategory,
 } from "@/lib/validations/category.validation";
@@ -24,7 +24,7 @@ export const getCategories = async () => {
     }
 
     const { data } = await res.json();
-    return data as Location[];
+    return data as Category[];
   } catch (error) {
     return null;
   }
@@ -66,16 +66,5 @@ export const createNewCategory = async (values: TCategory) => {
 };
 
 export const deleteCategory = async (id: string) => {
-  try {
-    const deleteCategory = await prisma.category.delete({
-      where: {
-        id,
-      },
-    });
-
-    revalidateTag("category");
-    return "Berhasil delete kategori";
-  } catch (error) {
-    throw new Error("terjadi kesalahan pada server");
-  }
+  console.log(`deleted `, id);
 };

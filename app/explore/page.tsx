@@ -4,8 +4,17 @@ import Container from "@/components/container";
 import Header from "@/components/header";
 import LocationCard from "@/components/location-card";
 import ScrollToTop from "@/components/scroll-to-top";
+import { getLocations } from "@/_actions/location.action";
+import { Metadata } from "next";
 
-function Page() {
+export const metadata: Metadata = {
+  title: "Explore - Media Berbagi Lokasi",
+  description: "Daftar Semua Tempat/Lokasi menarik.",
+};
+
+async function Page() {
+  const locations = await getLocations();
+
   return (
     <>
       <Container className="py-6 px-3">
@@ -14,23 +23,21 @@ function Page() {
           shortDescription="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque recusandae repellat."
         />
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
+          {locations?.length ? (
+            locations.map((location) => (
+              <LocationCard
+                key={location.id}
+                slug={location.slug}
+                address={location.address}
+                images={location.photos}
+                name={location.name}
+              />
+            ))
+          ) : (
+            <div className="col-span-5">
+              <span className="text-rose-500">No result</span>
+            </div>
+          )}
         </section>
         <ScrollToTop />
       </Container>

@@ -14,19 +14,17 @@ function Page() {
         <StatisticCard title="Like Didapat" description="keseluruhan" />
       </div>
       <div className="border p-6 shadow-sm rounded-md">
-        <Tabs defaultValue="account" className="w-[400px]">
+        <Tabs defaultValue="your-upload" className="w-[400px]">
           <TabsList>
-            <TabsTrigger value="account">Your Upload</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
+            <TabsTrigger value="your-upload">Your Upload</TabsTrigger>
+            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
           </TabsList>
 
           <div className="py-5">
-            <TabsContent value="account">
-              Make changes to your account here.
+            <TabsContent value="your-upload">
+              your upload location list
             </TabsContent>
-            <TabsContent value="password">
-              Change your password here.
-            </TabsContent>
+            <TabsContent value="wishlist">your wishlist</TabsContent>
           </div>
         </Tabs>
       </div>

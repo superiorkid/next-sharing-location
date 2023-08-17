@@ -4,7 +4,7 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ["picsum.photos"],
+    domains: ["picsum.photos", "ik.imagekit.io"],
   },
 };
 

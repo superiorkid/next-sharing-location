@@ -9,6 +9,10 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
     () => [
       {
         href: "/dashboard/admin",
+        title: "Dashboard",
+      },
+      {
+        href: "/dashboard/admin/locations",
         title: "Locations",
       },
       {

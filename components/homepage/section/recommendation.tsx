@@ -3,7 +3,6 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import Container from "@/components/container";
-import LocationCard from "@/components/location-card";
 import MaterialSymbolsArrowOutwardRounded from "@/components/icons/MaterialSymbolsArrowOutwardRounded";
 import { cn } from "@/lib/utils";
 
@@ -22,17 +21,17 @@ function Recommendation() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
 
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
-          <LocationCard />
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
+          {/*<LocationCard />*/}
         </div>
       </Container>
     </section>
