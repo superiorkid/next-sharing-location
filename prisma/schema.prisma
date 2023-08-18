@@ -30,31 +30,32 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   image         String?
-  role          Role      @default(USER)
-
-  accounts Account[]
-  posts    Location[]
+  role          Role       @default(USER)
+  accounts      Account[]
+  posts         Location[]
+  comments      Comment[]
 }
 
 model Location {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  slug        String   @unique
+  slug        String    @unique
   description String
   address     String
   street      String
   photos      String[]
-  authorId    String   @db.ObjectId
-  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  categoryId  String   @db.ObjectId
-  category    Category @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  authorId    String    @db.ObjectId
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId  String    @db.ObjectId
+  category    Category  @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  reviews     Comment[]
 }
 
 model Category {
@@ -62,6 +63,18 @@ model Category {
   name        String     @unique
   description String?
   locations   Location[]
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  comment   String
+  createdAt DateTime @default(now())
+
+  reviewer    User?   @relation(fields: [reviewerIDs], references: [id])
+  reviewerIDs String? @db.ObjectId
+
+  location    Location? @relation(fields: [locationIDs], references: [id])
+  locationIDs String?   @db.ObjectId
 }
 
 enum Role {

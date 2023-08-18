@@ -5,7 +5,9 @@ import { prisma } from "@/lib/prismadb";
 import imagekit from "@/lib/imagekit";
 import getCurrentUser from "@/_actions/get-current-user";
 import { revalidateTag } from "next/cache";
-import { Location } from ".prisma/client";
+import { Location, Prisma } from ".prisma/client";
+import { NextResponse } from "next/server";
+import { Comment } from "@prisma/client";
 
 export const getLocations = async () => {
   try {
@@ -27,6 +29,30 @@ export const getLocations = async () => {
     return data as Location[];
   } catch (error) {
     return null;
+  }
+};
+
+export const getLocation = async (slug: string) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/location/${slug}`,
+      {
+        next: {
+          tags: ["location"],
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("tidak dapat mendapatkan data lokasi");
+    }
+
+    const { data } = await res.json();
+    return data as Prisma.LocationGetPayload<{
+      include: { author: true; category: true };
+    }>;
+  } catch (e) {
+    throw new Error("terjadi kesalahan pada server.");
   }
 };
 
@@ -111,5 +137,27 @@ export const addLocation = async (values: FormData) => {
     return "new location added successfully";
   } catch (error) {
     throw new Error("terjadi kesalahan pada server.");
+  }
+};
+
+export const getLocationComments = async (locationId: string) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/comments/${locationId}`,
+      {
+        next: {
+          tags: ["comment"],
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch comment");
+    }
+
+    const { data } = await res.json();
+    return data as Prisma.CommentGetPayload<{ include: { reviewer: true } }>[];
+  } catch (error) {
+    throw new Error("terjadi kesalahn terhadap server");
   }
 };
