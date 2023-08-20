@@ -1,36 +1,21 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import Header from "@/components/header";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Tab from "@/components/dashboard/tab";
+import getCurrentUser from "@/_actions/get-current-user";
+import { redirect } from "next/navigation";
 
-function AdminLayout({ children }: { children: React.ReactNode }) {
-  const tabs = useMemo(
-    () => [
-      {
-        href: "/dashboard/admin",
-        title: "Dashboard",
-      },
-      {
-        href: "/dashboard/admin/locations",
-        title: "Locations",
-      },
-      {
-        href: "/dashboard/admin/users",
-        title: "Users",
-      },
-      {
-        href: "/dashboard/admin/categories",
-        title: "Categories",
-      },
-    ],
-    []
-  );
+async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const currentUser = await getCurrentUser();
+
+  if (currentUser?.role !== "ADMIN") {
+    redirect("/");
+  }
 
   return (
     <section>
       <Header title="Admin Panel" shortDescription="admin panel description" />
-      <Tab tabs={tabs} />
+      <Tab />
       {children}
     </section>
   );

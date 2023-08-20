@@ -4,12 +4,14 @@ import { getLocation } from "@/_actions/location.action";
 
 export async function GET(
   request: Request,
-  { params: { locationId } }: { params: { locationId: string } }
+  { params: { locationSlug } }: { params: { locationSlug: string } }
 ) {
+  const location = await getLocation(locationSlug);
+
   try {
     const getComments = await prisma.comment.findMany({
       where: {
-        locationIDs: locationId,
+        locationIDs: location.id,
       },
       include: {
         reviewer: true,

@@ -27,7 +27,10 @@ function AuthorInformation({
 }: AuthorInformationProps) {
   return (
     <div className="flex justify-between items-center p-1.5">
-      <UserCard author={author} authorImage={authorImage} email={email} />
+      <p>
+        Oleh:{" "}
+        <UserCard author={author} authorImage={authorImage} email={email} />
+      </p>
       <div className="flex items-center space-x-3">
         <p>
           tags:{" "}

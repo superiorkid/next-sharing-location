@@ -3,18 +3,32 @@ import React from "react";
 import StatisticCard from "@/components/dashboard/statistic-card";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getPostTotal, getUserLocations } from "@/_actions/user.action";
+import DataTable from "@/components/dashboard/data-table";
+import { locationColumn } from "@/components/dashboard/location-columns";
+import Wishlist from "@/components/dashboard/wishlist";
 
-function Page() {
+async function Page() {
+  // get location that uploads by current user
+  const locations = await getUserLocations();
+
   return (
     <section className="space-y-4">
       <Header title="User Dashboard" shortDescription="Your short statistic" />
       <div className="flex flex-col lg:flex-row space-y-2.5 lg:space-y-0 lg:space-x-2.5">
-        <StatisticCard title="Total Post" description="keseluruhan" />
-        <StatisticCard title="Total Like" description="keseluruhan" />
-        <StatisticCard title="Like Didapat" description="keseluruhan" />
+        <StatisticCard
+          title="Total Post"
+          description="keseluruhan"
+          value={await getPostTotal()}
+        />
+        <StatisticCard
+          title="Total Wishlist"
+          description="keseluruhan"
+          value={25}
+        />
       </div>
       <div className="border p-6 shadow-sm rounded-md">
-        <Tabs defaultValue="your-upload" className="w-[400px]">
+        <Tabs defaultValue="your-upload">
           <TabsList>
             <TabsTrigger value="your-upload">Your Upload</TabsTrigger>
             <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
@@ -22,9 +36,11 @@ function Page() {
 
           <div className="py-5">
             <TabsContent value="your-upload">
-              your upload location list
+              <DataTable columns={locationColumn} data={locations} />
             </TabsContent>
-            <TabsContent value="wishlist">your wishlist</TabsContent>
+            <TabsContent value="wishlist">
+              <Wishlist />
+            </TabsContent>
           </div>
         </Tabs>
       </div>

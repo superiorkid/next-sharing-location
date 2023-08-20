@@ -39,7 +39,7 @@ function LocationCardImageSlider({
               width={500}
               height={500}
               className={cn(
-                `object-cover w-full rounded-md hover:scale-105 h-[256px] ${className}`
+                `object-cover w-full rounded-md hover:scale-105 h-[256px] -z-10 ${className}`
               )}
             />
           </SwiperSlide>

@@ -4,7 +4,12 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ["picsum.photos", "ik.imagekit.io"],
+    domains: [
+      "picsum.photos",
+      "ik.imagekit.io",
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+    ],
   },
 };
 

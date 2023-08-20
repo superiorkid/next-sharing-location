@@ -1,6 +1,6 @@
 "use server";
 
-import { Category, Location } from ".prisma/client";
+import { Category } from ".prisma/client";
 import categorySchema, {
   TCategory,
 } from "@/lib/validations/category.validation";
@@ -63,6 +63,11 @@ export const createNewCategory = async (values: TCategory) => {
   } catch (error) {
     throw new Error("terjadi kesalahan terhadap server. silahkan coba lagi");
   }
+};
+
+export const getCategoryTotals = async () => {
+  const totals = await prisma.category.count();
+  return totals;
 };
 
 export const deleteCategory = async (id: string) => {

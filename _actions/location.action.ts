@@ -5,9 +5,7 @@ import { prisma } from "@/lib/prismadb";
 import imagekit from "@/lib/imagekit";
 import getCurrentUser from "@/_actions/get-current-user";
 import { revalidateTag } from "next/cache";
-import { Location, Prisma } from ".prisma/client";
-import { NextResponse } from "next/server";
-import { Comment } from "@prisma/client";
+import { Prisma } from ".prisma/client";
 
 export const getLocations = async () => {
   try {
@@ -26,7 +24,9 @@ export const getLocations = async () => {
     }
 
     const { data } = await res.json();
-    return data as Location[];
+    return data as Prisma.LocationGetPayload<{
+      include: { category: true; author: true };
+    }>[];
   } catch (error) {
     return null;
   }
@@ -140,16 +140,13 @@ export const addLocation = async (values: FormData) => {
   }
 };
 
-export const getLocationComments = async (locationId: string) => {
+export const getLocationComments = async (slug: string) => {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/comments/${locationId}`,
-      {
-        next: {
-          tags: ["comment"],
-        },
-      }
-    );
+    const res = await fetch(`http://localhost:3000/api/comments/${slug}`, {
+      next: {
+        tags: ["comment"],
+      },
+    });
 
     if (!res.ok) {
       throw new Error("Failed to fetch comment");
@@ -160,4 +157,9 @@ export const getLocationComments = async (locationId: string) => {
   } catch (error) {
     throw new Error("terjadi kesalahn terhadap server");
   }
+};
+
+export const getLocationTotals = async () => {
+  const totals = await prisma.location.count();
+  return totals;
 };

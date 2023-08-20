@@ -34,7 +34,21 @@ function CommentForm({ slug }: CommentFormProps) {
 
   const onSubmit = (values: TComment) => {
     startTransition(() => {
-      addNewComment(values, slug);
+      addNewComment(values, slug)
+        .then((response) => {
+          toast({
+            title: "Tambah komentar",
+            description: "Berhasil menambahkan komentar",
+          });
+          form.reset();
+        })
+        .catch((error) => {
+          toast({
+            title: "Tambah komentar",
+            description: "Gagal menambah komentar",
+            variant: "destructive",
+          });
+        });
     });
   };
 

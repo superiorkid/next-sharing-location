@@ -8,6 +8,8 @@ import Image from "next/image";
 import { imageKitLoader } from "@/lib/imagekit";
 import LocationCardImageSlider from "@/components/location-card-image-slider";
 import AuthorInformation from "@/components/author-information";
+import LocationDetailImageSlider from "@/components/location-detail-image-slider";
+import getCurrentUser from "@/_actions/get-current-user";
 
 // export async function generateStaticParams() {
 //   const locations = await getLocations();
@@ -30,7 +32,7 @@ async function Page({ params, searchParams }: PageProps) {
   return (
     <Container>
       <div className="h-[52dvh] bg-gray-400 mt-1 rounded-md overflow-hidden">
-        <LocationCardImageSlider images={location.photos} />
+        <LocationDetailImageSlider photos={location.photos} />
       </div>
       <div className="min-h-full flex space-x-7 -mt-14 max-w-5xl mx-auto">
         <main className="flex-1 min-w-0 overflow-auto bg-background rounded-md">
@@ -63,7 +65,7 @@ async function Page({ params, searchParams }: PageProps) {
                   <p>{location.description}</p>
                 </article>
 
-                <Comment slug={location.slug} id={location.id} />
+                <Comment slug={location.slug} />
               </TabsContent>
               <TabsContent value="commets">Comments</TabsContent>
             </div>

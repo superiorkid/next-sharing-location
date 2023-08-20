@@ -1,7 +1,20 @@
 import React from "react";
+import DataTable from "@/components/dashboard/data-table";
+import { getLocations } from "@/_actions/location.action";
+import { locationColumn } from "@/components/dashboard/location-columns";
 
-function Page() {
-  return <div className="border p-6 rounded-md shadow-sm">locations list</div>;
+async function Page() {
+  const locations = await getLocations();
+
+  return (
+    <div className="border p-6 rounded-md shadow-sm">
+      <DataTable
+        columns={locationColumn}
+        data={locations}
+        newRowLink="/dashboard/add"
+      />
+    </div>
+  );
 }
 
 export default Page;

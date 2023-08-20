@@ -11,9 +11,10 @@ import {
 interface StatisticCardProps {
   title: string;
   description: string;
+  value: number;
 }
 
-function StatisticCard({ title, description }: StatisticCardProps) {
+function StatisticCard({ value, title, description }: StatisticCardProps) {
   return (
     <Card className="w-full relative">
       <CardHeader>
@@ -21,7 +22,7 @@ function StatisticCard({ title, description }: StatisticCardProps) {
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <strong className="absolute top-1/3 right-7 text-gray-800 text-4xl">
-        87
+        {value}
       </strong>
     </Card>
   );

@@ -4,14 +4,12 @@ import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
+import useAdminTabsRoute from "@/hooks/useAdminTabsRoute";
 
-interface TabProps {
-  tabs: { title: string; href: string }[];
-}
-
-function Tab({ tabs }: TabProps) {
+function Tab() {
   const router = useRouter();
   const pathname = usePathname();
+  const tabs = useAdminTabsRoute();
 
   return (
     <Tabs

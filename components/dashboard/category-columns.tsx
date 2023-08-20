@@ -5,15 +5,14 @@ import React, { useState } from "react";
 
 import { Category } from ".prisma/client";
 import TableAction from "@/components/dashboard/table-action";
+import DataTableColumnHeader from "@/components/dashboard/data-table/data-table-column-header";
 
 export const categoryColumns: ColumnDef<Category>[] = [
   {
-    accessorKey: "id",
-    header: () => <div>ID</div>,
-  },
-  {
     accessorKey: "name",
-    header: () => <div>Nama</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Nama" />
+    ),
     cell: ({ row }) => {
       const name = row.getValue("name") as string;
       return <div className="font-medium capitalize">{name}</div>;
@@ -21,7 +20,9 @@ export const categoryColumns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: "description",
-    header: "Deskripsi",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Deskripsi" />
+    ),
     cell: ({ row }) => {
       const deskripsi = row.getValue("description") as string | null;
       return <div>{deskripsi ?? "tidak ada deskripsi"}</div>;
