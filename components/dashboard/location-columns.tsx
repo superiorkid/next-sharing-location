@@ -7,6 +7,7 @@ import { Category } from ".prisma/client";
 import TableAction from "@/components/dashboard/table-action";
 import DataTableColumnHeader from "@/components/dashboard/data-table/data-table-column-header";
 import React from "react";
+import { deleteLocation } from "@/_actions/location.action";
 
 export const locationColumn: ColumnDef<
   Prisma.LocationGetPayload<{ include: { category: true; author: true } }>
@@ -58,8 +59,8 @@ export const locationColumn: ColumnDef<
     accessorKey: "action",
     header: "",
     cell: ({ row }) => {
-      const id = row.getValue("id") as string;
-      return <TableAction id={id} />;
+      const rows = row.original;
+      return <TableAction id={rows.id} handleDelete={deleteLocation} />;
     },
   },
 ];

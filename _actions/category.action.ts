@@ -66,10 +66,20 @@ export const createNewCategory = async (values: TCategory) => {
 };
 
 export const getCategoryTotals = async () => {
-  const totals = await prisma.category.count();
-  return totals;
+  return await prisma.category.count();
 };
 
 export const deleteCategory = async (id: string) => {
-  console.log(`deleted `, id);
+  try {
+    const deleteCategory = await prisma.category.delete({
+      where: {
+        id,
+      },
+    });
+
+    revalidateTag("category");
+    return "berhasil menghapus kategory";
+  } catch (e) {
+    throw new Error("gagal menghapus kategori");
+  }
 };

@@ -53,13 +53,13 @@ export const userColumns: ColumnDef<User>[] = [
       );
     },
   },
-  {
-    accessorKey: "action",
-    header: "",
-    cell: ({ row }) => {
-      const id = row.getValue("id") as string;
-
-      return <TableAction id={id} />;
-    },
-  },
+  // {
+  //   accessorKey: "action",
+  //   header: "",
+  //   cell: ({ row }) => {
+  //     const id = row.getValue("id") as string;
+  //
+  //     return <TableAction id={id} />;
+  //   },
+  // },
 ];

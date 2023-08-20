@@ -56,6 +56,20 @@ export const getLocation = async (slug: string) => {
   }
 };
 
+export const getLocationById = async (id: string) => {
+  try {
+    const location = await prisma.location.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    return location;
+  } catch (e) {
+    throw new Error("terjadi kesalahan pada server.");
+  }
+};
+
 export const addLocation = async (values: FormData) => {
   const getValue = <T>(key: string): T | null =>
     values.get(key) as unknown as T;
@@ -144,7 +158,7 @@ export const getLocationComments = async (slug: string) => {
   try {
     const res = await fetch(`http://localhost:3000/api/comments/${slug}`, {
       next: {
-        tags: ["comment"],
+        tags: ["comment", "location"],
       },
     });
 
@@ -160,6 +174,30 @@ export const getLocationComments = async (slug: string) => {
 };
 
 export const getLocationTotals = async () => {
-  const totals = await prisma.location.count();
-  return totals;
+  return await prisma.location.count();
+};
+
+export const deleteLocation = async (id: string) => {
+  const location = await getLocationById(id);
+  try {
+    imagekit.deleteFolder(
+      `/location-sharing-app/images/${location?.slug}`,
+      async (err, response) => {
+        if (err) {
+          throw new Error("imagekit operation failed");
+        } else {
+          const deleteLoc = await prisma.location.delete({
+            where: {
+              id,
+            },
+          });
+
+          revalidateTag("location");
+          return "berhasil menghapus lokasi";
+        }
+      }
+    );
+  } catch (error) {
+    throw new Error("gagal menghapus lokasi");
+  }
 };

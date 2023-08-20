@@ -13,35 +13,34 @@ import { Button } from "@/components/ui/button";
 import HumbleiconsDotsHorizontal from "@/components/icons/HumbleiconsDotsHorizontal";
 import MaterialSymbolsContentCopyRounded from "@/components/icons/MaterialSymbolsContentCopyRounded";
 import SolarPenNewRoundBold from "@/components/icons/SolarPenNewRoundBold";
-import { deleteCategory } from "@/_actions/category.action";
 import MaterialSymbolsDeleteOutline from "@/components/icons/MaterialSymbolsDeleteOutline";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 interface TableActionProps {
   id: string;
+  handleDelete: (id: string) => Promise<any>;
 }
 
-function TableAction({ id }: TableActionProps) {
+function TableAction({ id, handleDelete }: TableActionProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const handleDeleteCategory = async (id: string) => {
     startTransition(() => {
-      deleteCategory(id)
+      handleDelete(id)
         .then((response) => {
           toast({
-            title: "Hapus Category",
-            description: "Berhasil manghapus kategori",
+            title: "Hapus",
+            description: "Berhasil",
           });
-          router.push("/dashboard/admin/categories");
         })
         .catch((error) => {
           toast({
             variant: "destructive",
-            title: "Hapus Category",
-            description: "Gagal manghapus kategori",
+            title: "Hapus",
+            description: "Gagal manghapus",
           });
         });
     });
@@ -51,6 +50,7 @@ function TableAction({ id }: TableActionProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
+          disabled={isPending}
           variant="secondary"
           size="icon"
           className="bg-background focus-visible:ring-0 focus-visible:ring-offset-0"

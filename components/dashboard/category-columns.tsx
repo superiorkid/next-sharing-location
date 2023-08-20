@@ -7,6 +7,7 @@ import { Category } from ".prisma/client";
 import TableAction from "@/components/dashboard/table-action";
 import DataTableColumnHeader from "@/components/dashboard/data-table/data-table-column-header";
 import { Checkbox } from "@/components/ui/checkbox";
+import { deleteCategory } from "@/_actions/category.action";
 
 export const categoryColumns: ColumnDef<Category>[] = [
   {
@@ -52,9 +53,11 @@ export const categoryColumns: ColumnDef<Category>[] = [
     accessorKey: "actions",
     header: "",
     cell: ({ row }) => {
-      const id = row.getValue("id") as string;
+      const rows = row.original;
 
-      return <TableAction id={id} />;
+      return (
+        <TableAction id={rows.id as string} handleDelete={deleteCategory} />
+      );
     },
   },
 ];

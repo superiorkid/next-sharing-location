@@ -12,6 +12,9 @@ async function Page() {
   // get location that uploads by current user
   const locations = await getUserLocations();
 
+  // get total location upload by user
+  const totalLocation = await getPostTotal();
+
   return (
     <section className="space-y-4">
       <Header title="User Dashboard" shortDescription="Your short statistic" />
@@ -19,7 +22,7 @@ async function Page() {
         <StatisticCard
           title="Total Post"
           description="keseluruhan"
-          value={await getPostTotal()}
+          value={totalLocation}
         />
         <StatisticCard
           title="Total Wishlist"
@@ -36,7 +39,11 @@ async function Page() {
 
           <div className="py-5">
             <TabsContent value="your-upload">
-              <DataTable columns={locationColumn} data={locations} />
+              <DataTable
+                columns={locationColumn}
+                data={locations}
+                newRowLink="/dashboard/add"
+              />
             </TabsContent>
             <TabsContent value="wishlist">
               <Wishlist />

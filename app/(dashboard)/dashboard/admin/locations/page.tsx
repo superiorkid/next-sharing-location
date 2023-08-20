@@ -8,11 +8,7 @@ async function Page() {
 
   return (
     <div className="border p-6 rounded-md shadow-sm">
-      <DataTable
-        columns={locationColumn}
-        data={locations}
-        newRowLink="/dashboard/add"
-      />
+      <DataTable columns={locationColumn} data={locations} />
     </div>
   );
 }

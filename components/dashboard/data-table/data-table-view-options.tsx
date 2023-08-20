@@ -8,9 +8,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import BasilSettingsAdjustSolid from "@/components/icons/BasilSettingsAdjustSolid";
 import MaterialSymbolsAddCircleOutline from "@/components/icons/MaterialSymbolsAddCircleOutline";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -24,10 +26,16 @@ function DataTableViewOptions<TData>({
   return (
     <div className="flex space-x-2 justify-end">
       {newRowLink && (
-        <Button className="h-8" variant="outline" size="sm">
+        <Link
+          href={newRowLink}
+          className={cn(
+            "h-8",
+            buttonVariants({ variant: "outline", size: "sm" })
+          )}
+        >
           <MaterialSymbolsAddCircleOutline className="mr-2 h-4 w-4" />
           New
-        </Button>
+        </Link>
       )}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

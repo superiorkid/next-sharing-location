@@ -23,6 +23,7 @@ async function Page() {
           shortDescription="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque recusandae repellat."
         />
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          s
           {locations?.length ? (
             locations.map((location) => (
               <LocationCard
@@ -35,7 +36,9 @@ async function Page() {
             ))
           ) : (
             <div className="col-span-5">
-              <span className="text-rose-500">No result</span>
+              <span className="text-rose-500">
+                Tidak ada lokasi yang tersedia.
+              </span>
             </div>
           )}
         </section>
