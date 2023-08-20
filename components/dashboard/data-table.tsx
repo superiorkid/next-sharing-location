@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -30,15 +30,20 @@ function DataTable<TData, TValue>({
   data,
   newRowLink,
 }: DataTableProps<TData, TValue>) {
+  const [rowSelection, setRowSelection] = useState({});
   const table = useReactTable({
     columns,
     data: data as TData[],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    onRowSelectionChange: setRowSelection,
+    state: {
+      rowSelection,
+    },
   });
 
   return (
-    <div>
+    <div className="space-y-3">
       <DataTableViewOptions newRowLink={newRowLink} table={table} />
       <div className="rounded-md border">
         <Table>
