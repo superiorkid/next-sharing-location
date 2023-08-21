@@ -4,31 +4,46 @@ import slugify from "slugify";
 import { prisma } from "@/lib/prismadb";
 import imagekit from "@/lib/imagekit";
 import getCurrentUser from "@/_actions/get-current-user";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { Prisma } from ".prisma/client";
+
+// export const getLocations = async () => {
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_BASE_URL}/api/location`,
+//       {
+//         method: "GET",
+//         next: {
+//           tags: ["location"],
+//           revalidate: 0,
+//         },
+//       }
+//     );
+//
+//     if (!res) {
+//       throw new Error("failed to fetch category");
+//     }
+//
+//     const { data } = await res.json();
+//     return data as Prisma.LocationGetPayload<{
+//       include: { category: true; author: true };
+//     }>[];
+//   } catch (error) {
+//     return null;
+//   }
+// };
 
 export const getLocations = async () => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/location`,
-      {
-        method: "GET",
-        next: {
-          tags: ["location"],
-        },
-      }
-    );
-
-    if (!res) {
-      throw new Error("failed to fetch category");
-    }
-
-    const { data } = await res.json();
-    return data as Prisma.LocationGetPayload<{
-      include: { category: true; author: true };
-    }>[];
+    const locations = await prisma.location.findMany({
+      include: {
+        category: true,
+        author: true,
+      },
+    });
+    return locations;
   } catch (error) {
-    return null;
+    throw new Error("failed to get locations");
   }
 };
 
@@ -58,7 +73,7 @@ export const getLocation = async (slug: string) => {
 
 export const getLocationById = async (id: string) => {
   try {
-    const location = await prisma.location.findFirst({
+    const location = await prisma.location.findFirstOrThrow({
       where: {
         id,
       },
@@ -156,11 +171,14 @@ export const addLocation = async (values: FormData) => {
 
 export const getLocationComments = async (slug: string) => {
   try {
-    const res = await fetch(`http://localhost:3000/api/comments/${slug}`, {
-      next: {
-        tags: ["comment", "location"],
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/comments/${slug}`,
+      {
+        next: {
+          tags: ["comment", "location"],
+        },
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to fetch comment");
@@ -180,24 +198,43 @@ export const getLocationTotals = async () => {
 export const deleteLocation = async (id: string) => {
   const location = await getLocationById(id);
   try {
-    imagekit.deleteFolder(
-      `/location-sharing-app/images/${location?.slug}`,
-      async (err, response) => {
-        if (err) {
-          throw new Error("imagekit operation failed");
-        } else {
-          const deleteLoc = await prisma.location.delete({
-            where: {
-              id,
-            },
-          });
-
-          revalidateTag("location");
-          return "berhasil menghapus lokasi";
-        }
-      }
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/location/${location.slug}`,
+      { method: "DELETE" }
     );
+
+    if (!res.ok) {
+      throw new Error("failed to delete location");
+    }
+
+    revalidateTag("location");
+    return "berhasil menghapus lokasi";
   } catch (error) {
     throw new Error("gagal menghapus lokasi");
   }
 };
+
+// export const deleteLocation = async (id: string) => {
+//   const location = await getLocationById(id);
+//   try {
+//     imagekit.deleteFolder(
+//       `/location-sharing-app/images/${location?.slug}`,
+//       async (err, response) => {
+//         if (err) {
+//           throw new Error("imagekit operation failed");
+//         } else {
+//           const deleteLoc = await prisma.location.delete({
+//             where: {
+//               id,
+//             },
+//           });
+//
+//           revalidateTag("location");
+//           return "berhasil menghapus lokasi";
+//         }
+//       }
+//     );
+//   } catch (error) {
+//     throw new Error("gagal menghapus lokasi");
+//   }
+// };

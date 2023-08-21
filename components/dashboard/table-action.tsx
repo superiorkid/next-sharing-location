@@ -27,7 +27,7 @@ function TableAction({ id, handleDelete }: TableActionProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteCategory = async (id: string) => {
+  const handleDeleteAction = async (id: string) => {
     startTransition(() => {
       handleDelete(id)
         .then((response) => {
@@ -35,6 +35,7 @@ function TableAction({ id, handleDelete }: TableActionProps) {
             title: "Hapus",
             description: "Berhasil",
           });
+          router.refresh();
         })
         .catch((error) => {
           toast({
@@ -71,7 +72,7 @@ function TableAction({ id, handleDelete }: TableActionProps) {
         </DropdownMenuItem>
         <DropdownMenuItem
           className="items-center"
-          onClick={() => handleDeleteCategory(id)}
+          onClick={() => handleDeleteAction(id)}
         >
           <MaterialSymbolsDeleteOutline className="w-4 h-4 mr-2" />
           Delete

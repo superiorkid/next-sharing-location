@@ -62,7 +62,25 @@ async function Page({ params, searchParams }: PageProps) {
                 <Separator className="my-3" />
 
                 <article className="prose prose-stone dark:prose-invert my-8">
-                  <p>{location.description}</p>
+                  {/*<p>{location.description}</p>*/}
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Animi consequatur cum dicta minima modi nemo perferendis. Ab
+                    accusamus aliquid culpa cumque ea eveniet hic iste maxime
+                    minima porro quibusdam, ratione similique soluta vero
+                    voluptas voluptatibus voluptatum! Adipisci autem beatae, et
+                    ipsa itaque labore libero maxime odio quae quibusdam veniam,
+                    veritatis?
+                  </p>
+                  <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Accusamus accusantium aperiam consectetur deleniti deserunt
+                    ipsam laudantium nisi quisquam quo, repellendus. Adipisci
+                    aperiam architecto autem consequatur consequuntur debitis
+                    delectus, excepturi fuga harum hic ipsam iure iusto, labore
+                    laboriosam natus nemo numquam omnis perspiciatis possimus
+                    quae qui reiciendis rerum tempore totam unde?
+                  </p>
                 </article>
 
                 <Comment slug={location.slug} />

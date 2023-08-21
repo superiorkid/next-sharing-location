@@ -3,8 +3,10 @@
 import React, { useState } from "react";
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -31,19 +33,23 @@ function DataTable<TData, TValue>({
   newRowLink,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = useState({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     columns,
     data: data as TData[],
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: setColumnFilters,
     state: {
       rowSelection,
+      columnFilters,
     },
   });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5">
       <DataTableViewOptions newRowLink={newRowLink} table={table} />
       <div className="rounded-md border">
         <Table>

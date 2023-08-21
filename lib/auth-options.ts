@@ -2,13 +2,12 @@ import { type AuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-// @ts-ignore
 import type { Adapter } from "next-auth/adapters";
 
 import { prisma } from "@/lib/prismadb";
 
 const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma) as Adapter<boolean>,
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
