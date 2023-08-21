@@ -27,7 +27,7 @@ function SearchBarTrigger() {
         <Button
           variant="outline"
           size="sm"
-          className="flex w-[257px] items-center justify-between text-gray-600 shadow-inner focus-visible:border-2 focus-visible:ring-0"
+          className="hidden md:flex w-[257px] items-center justify-between text-gray-600 shadow-inner focus-visible:border-2 focus-visible:ring-0"
           onClick={() => setOpen((open) => true)}
         >
           <div className="flex items-center">

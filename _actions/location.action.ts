@@ -4,8 +4,9 @@ import slugify from "slugify";
 import { prisma } from "@/lib/prismadb";
 import imagekit from "@/lib/imagekit";
 import getCurrentUser from "@/_actions/get-current-user";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { Prisma } from ".prisma/client";
+import { NextResponse } from "next/server";
 
 // export const getLocations = async () => {
 //   try {
@@ -73,13 +74,11 @@ export const getLocation = async (slug: string) => {
 
 export const getLocationById = async (id: string) => {
   try {
-    const location = await prisma.location.findFirstOrThrow({
+    return await prisma.location.findFirst({
       where: {
         id,
       },
     });
-
-    return location;
   } catch (e) {
     throw new Error("terjadi kesalahan pada server.");
   }
@@ -195,46 +194,68 @@ export const getLocationTotals = async () => {
   return await prisma.location.count();
 };
 
+// export const deleteLocation = async (id: string) => {
+//   console.log("delete location ID: ", id);
+//   const location = await getLocationById(id);
+//   try {
+//     const res = await fetch(
+//       `${process.env.NEXT_PUBLIC_BASE_URL}/api/location/${location?.slug}`,
+//       { method: "DELETE" }
+//     );
+//
+//     if (!res.ok) {
+//       throw new Error("failed to delete location");
+//     }
+//
+//     revalidateTag("location");
+//     return "berhasil menghapus lokasi";
+//   } catch (error) {
+//     throw new Error("gagal menghapus lokasi");
+//   }
+// };
+
 export const deleteLocation = async (id: string) => {
   const location = await getLocationById(id);
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/location/${location.slug}`,
-      { method: "DELETE" }
+    imagekit.deleteFolder(
+      `/location-sharing-app/images/${location?.slug}`,
+      async (err, response) => {
+        if (err) {
+          return NextResponse.json(
+            { error: "imagekit operation failed" },
+            { status: 500 }
+          );
+        } else {
+          console.log("imagekit operation successfully");
+        }
+      }
     );
 
-    if (!res.ok) {
-      throw new Error("failed to delete location");
-    }
+    const delLocation = await prisma.location.delete({
+      where: {
+        id: location?.id,
+      },
+    });
 
-    revalidateTag("location");
-    return "berhasil menghapus lokasi";
+    return "delete lokasi berhasil";
   } catch (error) {
     throw new Error("gagal menghapus lokasi");
   }
 };
 
-// export const deleteLocation = async (id: string) => {
-//   const location = await getLocationById(id);
-//   try {
-//     imagekit.deleteFolder(
-//       `/location-sharing-app/images/${location?.slug}`,
-//       async (err, response) => {
-//         if (err) {
-//           throw new Error("imagekit operation failed");
-//         } else {
-//           const deleteLoc = await prisma.location.delete({
-//             where: {
-//               id,
-//             },
-//           });
-//
-//           revalidateTag("location");
-//           return "berhasil menghapus lokasi";
-//         }
-//       }
-//     );
-//   } catch (error) {
-//     throw new Error("gagal menghapus lokasi");
-//   }
-// };
+export const searchLocation = async (query: string) => {
+  try {
+    const result = await prisma.location.findMany({
+      where: {
+        name: {
+          contains: query,
+        },
+      },
+      take: 5,
+    });
+
+    return result;
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+};

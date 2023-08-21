@@ -70,10 +70,10 @@ model Comment {
   comment   String
   createdAt DateTime @default(now())
 
-  reviewer    User?   @relation(fields: [reviewerIDs], references: [id])
+  reviewer    User?   @relation(fields: [reviewerIDs], references: [id], onDelete: Cascade)
   reviewerIDs String? @db.ObjectId
 
-  location    Location? @relation(fields: [locationIDs], references: [id])
+  location    Location? @relation(fields: [locationIDs], references: [id], onDelete: Cascade)
   locationIDs String?   @db.ObjectId
 }
 
