@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import PhBookmarkSimple from "@/components/icons/PhBookmarkSimple";
 import {
   Tooltip,
   TooltipContent,

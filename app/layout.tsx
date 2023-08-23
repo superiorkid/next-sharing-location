@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import Navigation from "@/components/navigation-bar/navigation";
