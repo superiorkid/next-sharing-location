@@ -303,3 +303,63 @@ export const getRecommendation = async () => {
 
   return recommendation;
 };
+
+export const addToWishlist = async (slug: string) => {
+  const currentUser = await getCurrentUser();
+
+  const location = await prisma.location.findFirst({
+    where: {
+      slug,
+    },
+  });
+
+  if (currentUser && location) {
+    await prisma.location.update({
+      where: {
+        id: location.id,
+      },
+      data: {
+        liked: {
+          connect: {
+            id: currentUser.id,
+          },
+        },
+      },
+    });
+
+    revalidateTag("location");
+    return "added to wishlist";
+  } else {
+    throw new Error("user not found");
+  }
+};
+
+export const removeFromWishlist = async (slug: string) => {
+  const currentUser = await getCurrentUser();
+
+  const location = await prisma.location.findFirst({
+    where: {
+      slug,
+    },
+  });
+
+  if (currentUser && location) {
+    await prisma.location.update({
+      where: {
+        id: location.id,
+      },
+      data: {
+        liked: {
+          disconnect: {
+            id: currentUser.id,
+          },
+        },
+      },
+    });
+
+    revalidateTag("location");
+    return "remove from wishlist";
+  } else {
+    throw new Error("user not found");
+  }
+};

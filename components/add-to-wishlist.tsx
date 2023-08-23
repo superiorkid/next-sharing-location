@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -7,31 +9,61 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import PhBookmarkSimpleFill from "@/components/icons/PhBookmarkSimpleFill";
-import { getWishlistTotal } from "@/_actions/location.action";
-import getCurrentUser from "@/_actions/get-current-user";
-import { cn } from "@/lib/utils";
+import { User } from "@prisma/client";
+import PhBookmarkSimple from "@/components/icons/PhBookmarkSimple";
+import { addToWishlist, removeFromWishlist } from "@/_actions/location.action";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface AddWishList {
+  currentUserId: string;
   slug: string;
-  liked: string[];
+  liked: User[];
 }
 
-async function AddToWishlist({ slug, liked }: AddWishList) {
-  const currentUser = await getCurrentUser();
-  const total = await getWishlistTotal(slug);
+function AddToWishlist({ slug, liked, currentUserId }: AddWishList) {
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const isAdded = liked.some((val) => val.id === currentUserId);
+
+  const handleWishlist = () => {
+    const action = isAdded ? removeFromWishlist : addToWishlist;
+
+    startTransition(() => {
+      action(slug)
+        .then((res) => {
+          toast({
+            title: isAdded ? "Remove from wishlist" : "Added to wishlist",
+          });
+          router.refresh();
+        })
+        .catch((error) => {
+          toast({
+            title: isAdded ? "Remove from wishlist" : "Added to wishlist",
+            variant: "destructive",
+          });
+        });
+    });
+  };
 
   return (
     <div className="flex flex-col items-center -space-y-2">
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
-            <Button variant="ghost" size="icon" className="p-0">
-              <PhBookmarkSimpleFill
-                className={cn(
-                  "h-8 w-8",
-                  liked.includes(currentUser?.id as string) && "text-rose-500"
-                )}
-              />
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="p-0"
+              onClick={handleWishlist}
+            >
+              {isAdded ? (
+                <PhBookmarkSimpleFill className="h-8 w-8 text-rose-500" />
+              ) : (
+                <PhBookmarkSimple className="h-8 w-8" />
+              )}
             </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom">
@@ -39,7 +71,7 @@ async function AddToWishlist({ slug, liked }: AddWishList) {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <p>{total?._count.liked}</p>
+      <p>{liked.length}</p>
     </div>
   );
 }

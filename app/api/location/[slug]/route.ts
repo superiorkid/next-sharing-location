@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prismadb";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import imagekit from "@/lib/imagekit";
 
 export async function GET(
@@ -16,6 +16,8 @@ export async function GET(
         liked: true,
       },
     });
+
+    console.log(location);
 
     return NextResponse.json({ data: location }, { status: 200 });
   } catch (error) {
