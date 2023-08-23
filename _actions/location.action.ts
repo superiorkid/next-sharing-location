@@ -363,3 +363,21 @@ export const removeFromWishlist = async (slug: string) => {
     throw new Error("user not found");
   }
 };
+
+export const getLocationByCategory = async (
+  param: string,
+  sort: "asc" | "desc" = "asc"
+) => {
+  const categories = await prisma.location.findMany({
+    where: {
+      category: {
+        name: param,
+      },
+    },
+    orderBy: {
+      name: sort,
+    },
+  });
+
+  return categories;
+};

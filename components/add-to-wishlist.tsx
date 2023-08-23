@@ -29,23 +29,30 @@ function AddToWishlist({ slug, liked, currentUserId }: AddWishList) {
   const isAdded = liked.some((val) => val.id === currentUserId);
 
   const handleWishlist = () => {
-    const action = isAdded ? removeFromWishlist : addToWishlist;
+    if (!currentUserId) {
+      toast({
+        title: "Login",
+        description: "Login first to access this feature",
+      });
+    } else {
+      const action = isAdded ? removeFromWishlist : addToWishlist;
 
-    startTransition(() => {
-      action(slug)
-        .then((res) => {
-          toast({
-            title: isAdded ? "Remove from wishlist" : "Added to wishlist",
+      startTransition(() => {
+        action(slug)
+          .then((res) => {
+            toast({
+              title: isAdded ? "Remove from wishlist" : "Added to wishlist",
+            });
+            router.refresh();
+          })
+          .catch((error) => {
+            toast({
+              title: isAdded ? "Remove from wishlist" : "Added to wishlist",
+              variant: "destructive",
+            });
           });
-          router.refresh();
-        })
-        .catch((error) => {
-          toast({
-            title: isAdded ? "Remove from wishlist" : "Added to wishlist",
-            variant: "destructive",
-          });
-        });
-    });
+      });
+    }
   };
 
   return (
