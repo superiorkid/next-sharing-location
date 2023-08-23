@@ -65,7 +65,7 @@ export const getLocation = async (slug: string) => {
 
     const { data } = await res.json();
     return data as Prisma.LocationGetPayload<{
-      include: { author: true; category: true };
+      include: { author: true; category: true; liked: true };
     }>;
   } catch (e) {
     throw new Error("terjadi kesalahan pada server.");
@@ -95,6 +95,7 @@ export const addLocation = async (values: FormData) => {
   const street = getValue<string>("street");
   const address = getValue<string>("address");
   const category = getValue<string>("category");
+  const coordinate = getValue<any>("coordinate");
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
 
   const uploadPromises = images.map((image) => {
@@ -143,6 +144,7 @@ export const addLocation = async (values: FormData) => {
     const newLocation = await prisma.location.create({
       data: {
         slug,
+        coordinate: coordinate as string,
         photos: photos as string[],
         name: name!,
         description: description!,
@@ -258,4 +260,46 @@ export const searchLocation = async (query: string) => {
   } catch (error) {
     throw new Error("something went wrong");
   }
+};
+
+export const getWishlistTotal = async (slug: string) => {
+  try {
+    const wishlistTotal = await prisma.location.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        _count: {
+          select: {
+            liked: true,
+          },
+        },
+      },
+    });
+    return wishlistTotal;
+  } catch (error) {
+    throw new Error("something went wrong");
+  }
+};
+
+export const getRecommendation = async () => {
+  const recommendation = await prisma.location.findMany({
+    take: 10,
+    orderBy: {
+      liked: {
+        _count: "desc",
+      },
+    },
+    include: {
+      author: true,
+      category: true,
+      liked: true,
+    },
+  });
+
+  if (!recommendation) {
+    throw new Error("No recommendations found");
+  }
+
+  return recommendation;
 };

@@ -37,8 +37,11 @@ model User {
   image         String?
   role          Role       @default(USER)
   accounts      Account[]
-  posts         Location[]
+  posts         Location[] @relation("author")
   comments      Comment[]
+
+  likesIDs String[]   @db.ObjectId
+  likes    Location[] @relation(fields: [likesIDs], references: [id])
 }
 
 model Location {
@@ -48,14 +51,17 @@ model Location {
   description String
   address     String
   street      String
+  coordinate  String
   photos      String[]
   authorId    String    @db.ObjectId
-  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author      User      @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
   categoryId  String    @db.ObjectId
   category    Category  @relation(fields: [categoryId], references: [id])
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   reviews     Comment[]
+  likedIDs    String[]  @db.ObjectId
+  liked       User[]    @relation(fields: [likedIDs], references: [id])
 }
 
 model Category {

@@ -9,6 +9,7 @@ import AuthProvider from "@/providers/auth-provider";
 import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
+import PhotoViewProvider from "@/providers/photo-view-provider";
 
 const circularStdBook = localFont({
   src: "./CircularStd-Book.otf",
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className={cn(circularStdBook.className)}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Navigation />
-            <main className="min-h-[90dvh] relative">{children}</main>
-            <Footer />
+            <PhotoViewProvider>
+              <Navigation />
+              <main className="min-h-[90dvh] relative">{children}</main>
+              <Footer />
+            </PhotoViewProvider>
           </ThemeProvider>
         </AuthProvider>
         <Toaster />

@@ -5,8 +5,12 @@ import { buttonVariants } from "@/components/ui/button";
 import Container from "@/components/container";
 import MaterialSymbolsArrowOutwardRounded from "@/components/icons/MaterialSymbolsArrowOutwardRounded";
 import { cn } from "@/lib/utils";
+import { getRecommendation } from "@/_actions/location.action";
+import LocationCard from "@/components/location-card";
 
-function Recommendation() {
+async function Recommendation() {
+  const locations = await getRecommendation();
+
   return (
     <section className="min-h-[96dvh] bg-gray-50 dark:bg-gray-900 p-3 flex items-center">
       <Container className="flex flex-col space-y-4 h-full">
@@ -21,17 +25,15 @@ function Recommendation() {
           </Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
-          {/*<LocationCard />*/}
+          {locations.map((location) => (
+            <LocationCard
+              key={location.id}
+              slug={location.slug}
+              address={location.address}
+              images={location.photos}
+              name={location.name}
+            />
+          ))}
         </div>
       </Container>
     </section>

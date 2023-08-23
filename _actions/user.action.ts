@@ -53,3 +53,19 @@ export async function getUserLocations() {
     throw new Error("something went wrong");
   }
 }
+
+export async function getTotalWishlist() {
+  const currentUser = await getCurrentUser();
+  const total = await prisma.user.findFirst({
+    where: { id: currentUser?.id },
+    select: {
+      _count: {
+        select: {
+          likes: true,
+        },
+      },
+    },
+  });
+
+  return total;
+}

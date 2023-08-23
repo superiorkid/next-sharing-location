@@ -13,6 +13,7 @@ export async function GET(
       include: {
         author: true,
         category: true,
+        liked: true,
       },
     });
 

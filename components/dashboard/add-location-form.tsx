@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useTransition } from "react";
+import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -27,6 +27,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { Category } from ".prisma/client";
 import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import { Skeleton } from "@/components/ui/skeleton";
+import L, { LatLng, LatLngExpression } from "leaflet";
+
+const Coordinate = dynamic(() => import("@/components/coordinates"), {
+  ssr: false,
+  loading: () => <Skeleton className="w-full block h-10 rounded-md" />,
+});
 
 interface AddLocationFormProps {
   categories: Category[] | null;
@@ -35,6 +43,7 @@ interface AddLocationFormProps {
 function AddLocationForm({ categories }: AddLocationFormProps) {
   const router = useRouter();
   const { toast } = useToast();
+  const [position, setPosition] = useState<LatLng | null>(null);
   const [isPending, startTransition] = useTransition();
   const form = useForm<TLocation>({
     resolver: zodResolver(locationSchema),
@@ -45,6 +54,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
       street: "",
       // category: categories?.at(0)?.name,
       category: "",
+      coordinate: "",
       photos: undefined,
     },
   });
@@ -57,6 +67,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
     formData.append("street", values.street);
     formData.append("address", values.address);
     formData.append("category", values.category);
+    formData.append("coordinate", JSON.stringify(values.coordinate));
 
     for (let value of values.photos as File[]) {
       formData.append("images[]", value);
@@ -166,6 +177,27 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           )}
         />
 
+        <FormItem>
+          <FormLabel
+            className={cn(form.formState.errors.coordinate && "text-rose-500")}
+          >
+            Pilih koordinat
+          </FormLabel>
+          <FormControl>
+            <Coordinate
+              name="coordinate"
+              // @ts-ignore
+              setValue={form.setValue}
+              isLoading={isPending}
+              position={position}
+              setPosition={setPosition}
+            />
+          </FormControl>
+          <span className="text-sm text-rose-500">
+            {form.formState.errors.coordinate?.message as string}
+          </span>
+        </FormItem>
+
         <FormField
           control={form.control}
           name="category"
@@ -202,35 +234,6 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
                 {form.formState.errors.category?.message as string}
               </span>
             </FormItem>
-
-            // <FormItem>
-            //   <FormLabel>Kategori</FormLabel>
-            //   <Select onOpenChange={field.onChange} defaultValue={field.value}>
-            //     <FormControl>
-            //       <SelectTrigger>
-            //         <SelectValue placeholder="Pilih kategory yang sesuai" />
-            //       </SelectTrigger>
-            //     </FormControl>
-            //     <SelectContent>
-            //       {categories?.length ? (
-            //         categories.map((category, index) => (
-            //           <SelectItem key={index} value={category.name}>
-            //             {category.name}
-            //           </SelectItem>
-            //         ))
-            //       ) : (
-            //         <SelectItem
-            //           disabled
-            //           value="no-results"
-            //           className="justify-center"
-            //         >
-            //           No Categories
-            //         </SelectItem>
-            //       )}
-            //     </SelectContent>
-            //   </Select>
-            //   <FormMessage />
-            // </FormItem>
           )}
         />
 

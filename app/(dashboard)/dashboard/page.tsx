@@ -3,7 +3,11 @@ import React from "react";
 import StatisticCard from "@/components/dashboard/statistic-card";
 import Header from "@/components/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getPostTotal, getUserLocations } from "@/_actions/user.action";
+import {
+  getPostTotal,
+  getTotalWishlist,
+  getUserLocations,
+} from "@/_actions/user.action";
 import DataTable from "@/components/dashboard/data-table";
 import { locationColumn } from "@/components/dashboard/location-columns";
 import Wishlist from "@/components/dashboard/wishlist";
@@ -14,6 +18,7 @@ async function Page() {
 
   // get total location upload by user
   const totalLocation = await getPostTotal();
+  const wishlistTotal = await getTotalWishlist();
 
   return (
     <section className="space-y-4">
@@ -27,7 +32,7 @@ async function Page() {
         <StatisticCard
           title="Total Wishlist"
           description="keseluruhan"
-          value={25}
+          value={wishlistTotal?._count.likes as number}
         />
       </div>
       <div className="border p-6 shadow-sm rounded-md">
