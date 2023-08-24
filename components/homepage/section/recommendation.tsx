@@ -15,12 +15,12 @@ async function Recommendation() {
     <section className="min-h-[96dvh] bg-gray-50 dark:bg-gray-900 p-3 flex items-center">
       <Container className="flex flex-col space-y-4 h-full">
         <div className="flex justify-between items-center">
-          <h3 className="uppercase font-bold text-lg">recommendation</h3>
+          <h3 className="uppercase font-bold text-lg">Rekomendasi</h3>
           <Link
             href="/explore"
             className={cn("items-center", buttonVariants({ variant: "link" }))}
           >
-            more{" "}
+            lebih banyak{" "}
             <MaterialSymbolsArrowOutwardRounded className="inline w-4 h-4" />
           </Link>
         </div>

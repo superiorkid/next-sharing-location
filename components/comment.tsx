@@ -17,7 +17,7 @@ async function Comment({ slug }: CommentProps) {
 
   return (
     <div>
-      <h3 className="text-2xl font-semibold my-3">Comments</h3>
+      <h3 className="text-2xl font-semibold my-3">Komentar</h3>
       <Separator className="mb-6 mt-3" />
       {currentUser ? (
         <CommentForm slug={slug} />

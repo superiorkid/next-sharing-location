@@ -9,11 +9,11 @@ export default function useRoutes() {
   return useMemo<IRoutes[]>(
     () => [
       {
-        label: "Explore",
+        label: "Jelajah",
         href: "/explore",
       },
       {
-        label: "About",
+        label: "Tentang",
         href: "/about",
       },
     ],

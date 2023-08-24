@@ -13,7 +13,6 @@ import { User } from "@prisma/client";
 import PhBookmarkSimple from "@/components/icons/PhBookmarkSimple";
 import { addToWishlist, removeFromWishlist } from "@/_actions/location.action";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
 
 interface AddWishList {
   currentUserId: string;
@@ -23,7 +22,6 @@ interface AddWishList {
 
 function AddToWishlist({ slug, liked, currentUserId }: AddWishList) {
   const { toast } = useToast();
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const isAdded = liked.some((val) => val.id === currentUserId);
@@ -43,7 +41,6 @@ function AddToWishlist({ slug, liked, currentUserId }: AddWishList) {
             toast({
               title: isAdded ? "Remove from wishlist" : "Added to wishlist",
             });
-            router.refresh();
           })
           .catch((error) => {
             toast({

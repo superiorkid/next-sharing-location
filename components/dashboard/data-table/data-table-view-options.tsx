@@ -28,12 +28,12 @@ function DataTableViewOptions<TData>({
     <div className="flex space-x-2 justify-between items-center">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter names..."
+          placeholder="Saring berdasarkan nama..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-md h-9 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-gray-600"
+          className="max-w-xl h-9 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-gray-600"
         />
       </div>
       <div className="flex space-x-2">
@@ -46,14 +46,14 @@ function DataTableViewOptions<TData>({
             )}
           >
             <MaterialSymbolsAddCircleOutline className="mr-2 h-4 w-4" />
-            New
+            Baru
           </Link>
         )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="h-9">
               <BasilSettingsAdjustSolid className="mr-2 h-4 w-4" />
-              View
+              Saring
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-[150px]">

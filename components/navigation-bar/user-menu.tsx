@@ -63,7 +63,7 @@ function UserMenu({ session }: UserMenuProps) {
         <DropdownMenuItem asChild>
           <Link href="/dashboard/account">
             <TablerUser className="mr-2 w-4 h-4" />
-            Account
+            Akun
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
@@ -78,7 +78,7 @@ function UserMenu({ session }: UserMenuProps) {
           onClick={handleLogout}
         >
           <MaterialSymbolsLogoutRounded className="mr-2 w-4 h-4" />
-          Logout
+          Keluar
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

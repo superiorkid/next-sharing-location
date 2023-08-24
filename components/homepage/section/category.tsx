@@ -11,9 +11,9 @@ async function Category() {
       <Container className="flex flex-col space-y-6 justify-center items-center h-full px-3">
         <div className="text-center">
           <h2 className="text-2xl lg:text-3xl uppercase font-bold tracking-tight">
-            categories
+            kategori
           </h2>
-          <p className="tracking-wide">Find location by categories</p>
+          <p className="tracking-wide">Cari lokasi berdasarkan kategori</p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 w-full">
           {categories?.map((category, index) => (

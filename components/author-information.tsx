@@ -33,7 +33,7 @@ function AuthorInformation({
       </p>
       <div className="flex items-center space-x-3">
         <p>
-          tags:{" "}
+          kategori:{" "}
           <span className="border rounded-md py-1.5 px-2.5 hover:cursor-pointer bg-gray-100 hover:bg-gray-200 font-thin">
             {category}
           </span>

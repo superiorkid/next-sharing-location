@@ -5,6 +5,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -32,10 +33,11 @@ function FilteredTabs({ categories, params }: FilteredTabsProps) {
         }}
       >
         <SelectTrigger className="w-[120px]">
-          <SelectValue placeholder="Category" />
+          <SelectValue placeholder="Kategori" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="">All</SelectItem>
+          <SelectItem value="">Semua</SelectItem>
+          <SelectSeparator />
           {categories?.map((category) => (
             <SelectItem key={category.id} value={category.name}>
               <span className="capitalize">{category.name}</span>

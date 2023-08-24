@@ -26,11 +26,11 @@ const GoogleMapsWidget = dynamic(
 );
 
 // export async function generateStaticParams() {
-//   const locations = await getLocations();
-//
-//   return locations?.map((location) => ({
+//   const locations = await prisma.location.findMany();
+//   const res = locations.map((location) => ({
 //     slug: location.slug,
 //   }));
+//
 // }
 
 interface PageProps {
@@ -39,6 +39,14 @@ interface PageProps {
   };
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+// export async function generateStaticParams() {
+//   const locations = await getLocations();
+//
+//   return locations.map((location) => ({
+//     slug: location.slug,
+//   }));
+// }
 
 async function Page({ params, searchParams }: PageProps) {
   const location = await getLocation(params.slug);
@@ -105,13 +113,19 @@ async function Page({ params, searchParams }: PageProps) {
                 className="shadow-md w-full rounded-md p-3"
               >
                 <AccordionItem value="item-1">
-                  <AccordionTrigger className="font-semibold text-lg">
-                    Contacts
+                  <AccordionTrigger className="font-bold text-xl">
+                    Informasi tambahan
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="flex flex-col space-y-3">
-                      <span>{location.address}</span>
-                      <span>{location.street}</span>
+                    <div className="space-y-3">
+                      <div>
+                        <h5 className="font-semibold">alamat</h5>
+                        <p className="italic">{location.address}</p>
+                      </div>
+                      <div>
+                        <h5 className="font-semibold">jalan</h5>
+                        <p className="italic">jalan: {location.street}</p>
+                      </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>

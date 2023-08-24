@@ -79,7 +79,7 @@ function CommentForm({ slug }: CommentFormProps) {
           className="w-[120px]"
           disabled={isPending}
         >
-          Submit
+          Kirim
         </Button>
       </form>
     </Form>

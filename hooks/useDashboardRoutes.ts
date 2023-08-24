@@ -13,7 +13,7 @@ export default function useDashboardRoutes() {
   return useMemo<IRoutes[]>(
     () => [
       {
-        label: "Account",
+        label: "Akun",
         href: "/dashboard/account",
         isActive: pathname === "/dashboard/account",
       },

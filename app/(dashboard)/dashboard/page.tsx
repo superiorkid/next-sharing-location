@@ -11,8 +11,11 @@ import {
 import DataTable from "@/components/dashboard/data-table";
 import { locationColumn } from "@/components/dashboard/location-columns";
 import Wishlist from "@/components/dashboard/wishlist";
+import getCurrentUser from "@/_actions/get-current-user";
+import { Location } from "@prisma/client";
 
 async function Page() {
+  const currentUser = await getCurrentUser();
   // get location that uploads by current user
   const locations = await getUserLocations();
 
@@ -22,15 +25,18 @@ async function Page() {
 
   return (
     <section className="space-y-4">
-      <Header title="User Dashboard" shortDescription="Your short statistic" />
+      <Header
+        title="Dashboard Pengguna"
+        shortDescription="Informasi Umum Pengguna"
+      />
       <div className="flex flex-col lg:flex-row space-y-2.5 lg:space-y-0 lg:space-x-2.5">
         <StatisticCard
-          title="Total Post"
+          title="Total Unggahan"
           description="keseluruhan"
           value={totalLocation}
         />
         <StatisticCard
-          title="Total Wishlist"
+          title="Total Daftar Keinginan"
           description="keseluruhan"
           value={wishlistTotal?._count.likes as number}
         />
@@ -38,8 +44,8 @@ async function Page() {
       <div className="border p-6 shadow-sm rounded-md">
         <Tabs defaultValue="your-upload">
           <TabsList>
-            <TabsTrigger value="your-upload">Your Upload</TabsTrigger>
-            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
+            <TabsTrigger value="your-upload">Unggahanmu</TabsTrigger>
+            <TabsTrigger value="wishlist">Daftar Keinginan</TabsTrigger>
           </TabsList>
 
           <div className="py-5">
@@ -51,7 +57,7 @@ async function Page() {
               />
             </TabsContent>
             <TabsContent value="wishlist">
-              <Wishlist />
+              <Wishlist wishlist={currentUser?.likes as Location[]} />
             </TabsContent>
           </div>
         </Tabs>

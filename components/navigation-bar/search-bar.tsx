@@ -43,13 +43,13 @@ function SearchBar({ open, setOpen }: SearchBarProps) {
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
       <CommandInput
-        placeholder="Type a command or search..."
+        placeholder="Ketikkan perintah atau cari..."
         onValueChange={(search) => setSearch(search)}
       />
       <CommandList>
         <ScrollArea className="max-h-[20dvh]">
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Results">
+          <CommandEmpty>Hasil tidak ditemukan.</CommandEmpty>
+          <CommandGroup heading="Hasil">
             {locations?.slice(0, 8).map((location, index) => (
               <CommandItem
                 key={index}

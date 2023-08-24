@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prismadb";
-import { User } from ".prisma/client";
 import getSession from "@/_actions/get-session";
+import { Prisma } from "@prisma/client";
 
 export default async function getCurrentUser() {
   try {
@@ -14,7 +14,10 @@ export default async function getCurrentUser() {
       where: {
         email: session.user.email,
       },
-    })) as User;
+      include: {
+        likes: true,
+      },
+    })) as Prisma.UserGetPayload<{ include: { likes: true } }>;
 
     if (!user) {
       return null;
