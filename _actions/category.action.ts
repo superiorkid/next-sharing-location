@@ -83,3 +83,40 @@ export const deleteCategory = async (id: string) => {
     throw new Error("gagal menghapus kategori");
   }
 };
+
+export async function getCategory(id: string) {
+  const category = await prisma.category.findFirst({
+    where: { id },
+  });
+
+  if (!category) {
+    throw new Error("cannot get category");
+  }
+
+  return category;
+}
+
+export async function editCategory(id: string, data: TCategory) {
+  const dataValidation = categorySchema.safeParse(data);
+
+  if (!dataValidation.success) {
+    throw new Error(dataValidation.error.issues.at(0)?.message);
+  }
+
+  try {
+    const editCategory = await prisma.category.update({
+      where: {
+        id,
+      },
+      data: {
+        name: data.name,
+        description: data.description,
+      },
+    });
+
+    revalidateTag("category");
+    return "category berhasil diperbarui";
+  } catch (error) {
+    throw new Error("error edit category");
+  }
+}

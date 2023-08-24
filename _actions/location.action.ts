@@ -78,6 +78,9 @@ export const getLocationById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        category: true,
+      },
     });
   } catch (e) {
     throw new Error("terjadi kesalahan pada server.");

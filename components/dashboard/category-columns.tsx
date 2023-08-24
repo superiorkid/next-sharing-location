@@ -56,7 +56,11 @@ export const categoryColumns: ColumnDef<Category>[] = [
       const rows = row.original;
 
       return (
-        <TableAction id={rows.id as string} handleDelete={deleteCategory} />
+        <TableAction
+          editUrl={`/dashboard/admin/categories/edit/${rows.id}`}
+          id={rows.id as string}
+          handleDelete={deleteCategory}
+        />
       );
     },
   },

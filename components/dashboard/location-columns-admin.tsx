@@ -17,11 +17,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import UserCard from "@/components/user-card";
 import MaterialSymbolsArrowOutwardRounded from "@/components/icons/MaterialSymbolsArrowOutwardRounded";
 import MdiEye from "@/components/icons/MdiEye";
 import { Badge } from "@/components/ui/badge";
 
-export const locationColumn: ColumnDef<
+export const locationColumnsAdmin: ColumnDef<
   Prisma.LocationGetPayload<{ include: { category: true; author: true } }>
 >[] = [
   {
@@ -35,6 +36,23 @@ export const locationColumn: ColumnDef<
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Jalan" />
     ),
+  },
+  {
+    accessorKey: "author",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Author" />
+    ),
+    cell: ({ row }) => {
+      const rows = row.original;
+
+      return (
+        <UserCard
+          author={rows.author.name as string}
+          authorImage={rows.author.image as string}
+          email={rows.author.email as string}
+        />
+      );
+    },
   },
   {
     accessorKey: "address",

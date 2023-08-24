@@ -119,12 +119,14 @@ async function Page({ params, searchParams }: PageProps) {
                   <AccordionContent>
                     <div className="space-y-3">
                       <div>
-                        <h5 className="font-semibold">alamat</h5>
-                        <p className="italic">{location.address}</p>
+                        <h5 className="font-semibold hover:underline">
+                          Alamat
+                        </h5>
+                        <p className="font-extralight">{location.address}</p>
                       </div>
                       <div>
-                        <h5 className="font-semibold">jalan</h5>
-                        <p className="italic">jalan: {location.street}</p>
+                        <h5 className="font-semibold hover:underline">Jalan</h5>
+                        <p className="font-extralight">{location.street}</p>
                       </div>
                     </div>
                   </AccordionContent>

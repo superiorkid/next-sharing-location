@@ -18,7 +18,7 @@ function UserCard({ author, authorImage, email }: UserCardProps) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <p className="hover:underline hover:cursor-pointer inline">@{author}</p>
+        <p className="hover:underline hover:cursor-pointer inline">{author}</p>
       </HoverCardTrigger>
       <HoverCardContent className="w-auto">
         <div className="flex justify-between space-x-4">
@@ -27,7 +27,7 @@ function UserCard({ author, authorImage, email }: UserCardProps) {
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <div className="space-y-1">
-            <h4 className="text-sm font-semibold">@{author}</h4>
+            <h4 className="text-sm font-semibold">{author}</h4>
             <p className="text-sm">{email}</p>
           </div>
         </div>

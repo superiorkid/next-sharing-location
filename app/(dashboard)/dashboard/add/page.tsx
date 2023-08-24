@@ -3,9 +3,11 @@ import React from "react";
 import Header from "@/components/header";
 import AddLocationForm from "@/components/dashboard/add-location-form";
 import { getCategories } from "@/_actions/category.action";
+import { getLocation, getLocationById } from "@/_actions/location.action";
 
-async function Page() {
+async function Page({ searchParams }: { searchParams: { edit?: string } }) {
   const categories = await getCategories();
+
   return (
     <section className="space-y-4">
       <Header

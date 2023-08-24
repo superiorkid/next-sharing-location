@@ -20,9 +20,10 @@ import { useRouter } from "next/navigation";
 interface TableActionProps {
   id: string;
   handleDelete: (id: string) => Promise<any>;
+  editUrl: string;
 }
 
-function TableAction({ id, handleDelete }: TableActionProps) {
+function TableAction({ id, handleDelete, editUrl }: TableActionProps) {
   const { toast } = useToast();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -66,7 +67,10 @@ function TableAction({ id, handleDelete }: TableActionProps) {
           <MaterialSymbolsContentCopyRounded className="w-4 h-4 mr-2" />
           Copy ID to clipboard
         </DropdownMenuItem>
-        <DropdownMenuItem className="items-center">
+        <DropdownMenuItem
+          className="items-center"
+          onClick={() => router.push(editUrl)}
+        >
           <SolarPenNewRoundBold className="mr-2 w-4 h-4" />
           Edit
         </DropdownMenuItem>

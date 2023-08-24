@@ -1,11 +1,6 @@
 "use client";
 
 import React, { useTransition } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import categorySchema, {
-  type TCategory,
-} from "@/lib/validations/category.validation";
 import {
   Form,
   FormControl,
@@ -17,41 +12,46 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { createNewCategory } from "@/_actions/category.action";
-import { toast, useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { useForm } from "react-hook-form";
+import categorySchema, {
+  TCategory,
+} from "@/lib/validations/category.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createNewCategory, editCategory } from "@/_actions/category.action";
 import { Category } from ".prisma/client";
-import category from "@/components/homepage/section/category";
 import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
 
-function AddCategoryForm() {
+interface EditCategoryFormProps {
+  category: Category;
+}
+
+function EditCategoryForm({ category }: EditCategoryFormProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const form = useForm<TCategory>({
     resolver: zodResolver(categorySchema),
     defaultValues: {
-      name: "",
-      description: "",
+      name: category.name,
+      description: category.description as string,
     },
   });
 
   const onSubmit = async (values: TCategory) => {
     startTransition(() => {
-      createNewCategory(values)
+      editCategory(category.id, values)
         .then((response) => {
           toast({
-            title: "Add new category",
-            description: "Success add new category",
+            title: "Update kategori berhasil",
           });
-          form.reset();
           router.push("/dashboard/admin/categories");
         })
         .catch((error) => {
           toast({
+            title: "Update kategori gagal",
             variant: "destructive",
-            title: "Add new category",
-            description: "Error add new category",
           });
         });
     });
@@ -107,11 +107,11 @@ function AddCategoryForm() {
         <Button type="submit" disabled={isPending}>
           {isPending ? (
             <span>
-              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Tambah
+              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Edit
               kategori...
             </span>
           ) : (
-            "Tambah kategori"
+            "Edit kategori"
           )}
         </Button>
       </form>
@@ -119,4 +119,4 @@ function AddCategoryForm() {
   );
 }
 
-export default AddCategoryForm;
+export default EditCategoryForm;

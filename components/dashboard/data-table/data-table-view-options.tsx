@@ -28,7 +28,7 @@ function DataTableViewOptions<TData>({
     <div className="flex space-x-2 justify-between items-center">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Saring berdasarkan nama..."
+          placeholder="Cari lokasi..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
