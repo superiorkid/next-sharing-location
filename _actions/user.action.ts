@@ -1,6 +1,9 @@
+"use server";
+
 import { prisma } from "@/lib/prismadb";
 import getCurrentUser from "@/_actions/get-current-user";
 import { User } from "@prisma/client";
+import { revalidateTag } from "next/cache";
 
 export async function getUsers() {
   try {
@@ -68,4 +71,21 @@ export async function getTotalWishlist() {
   });
 
   return total;
+}
+
+export async function deleteUser() {
+  const currentUser = await getCurrentUser();
+
+  try {
+    const deleteAccount = await prisma.user.delete({
+      where: {
+        id: currentUser?.id,
+      },
+    });
+
+    revalidateTag("user");
+    return "user deleted successfully";
+  } catch (error) {
+    throw new Error("Something went wrong");
+  }
 }

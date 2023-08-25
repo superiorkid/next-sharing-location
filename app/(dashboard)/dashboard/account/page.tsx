@@ -18,6 +18,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { deleteUser } from "@/_actions/user.action";
+import DeleteAccountActionButton from "@/components/dashboard/delete-account-action-button";
 
 async function Page() {
   const currentUser = await getCurrentUser();
@@ -63,18 +65,14 @@ async function Page() {
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
+                    <AlertDialogTitle>Apa anda yakin?</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
+                      Tindakan ini tidak bisa dibatalkan. Tindakan ini akan
+                      menghapus akun Anda secara permanen dan menghapus data
+                      Anda dari server kami.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>Continue</AlertDialogAction>
-                  </AlertDialogFooter>
+                  <DeleteAccountActionButton />
                 </AlertDialogContent>
               </AlertDialog>
             </div>
