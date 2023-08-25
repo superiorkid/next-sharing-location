@@ -9,16 +9,16 @@ export default function useAdminTabsRoute() {
       },
       {
         href: "/dashboard/admin/users",
-        title: "Users",
+        title: "Pengguna",
       },
       {
         href: "/dashboard/admin/locations",
-        title: "Locations",
+        title: "Lokasi",
       },
 
       {
         href: "/dashboard/admin/categories",
-        title: "Categories",
+        title: "Kategori",
       },
     ],
     []

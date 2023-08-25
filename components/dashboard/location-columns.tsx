@@ -115,7 +115,7 @@ export const locationColumn: ColumnDef<
       const rows = row.original;
       return (
         <TableAction
-          editUrl={`/dashboard/add?edit=${rows.id}`}
+          editUrl={`/dashboard/edit/${rows.id}`}
           id={rows.id}
           handleDelete={deleteLocation}
         />

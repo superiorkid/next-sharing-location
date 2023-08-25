@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { imageKitLoader } from "@/lib/imagekit";
+import { PhotoView } from "react-photo-view";
 
 interface DashboardImagesProps {
   photos: string[];

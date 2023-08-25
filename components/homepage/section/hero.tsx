@@ -11,8 +11,7 @@ function Hero() {
       </h1>
       <blockquote className="max-w-sm font-extralight capitalize tracking-normal text-gray-700 dark:text-gray-300 md:max-w-xl md:text-lg">
         <q>
-          cari tempat yang mungkin anda belum tau. tempat disini menarik dan
-          worth it untuk dikunjungi
+          Discover the Extraordinary: Unveiling Unique Destinations Together
         </q>
       </blockquote>
     </section>

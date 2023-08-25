@@ -72,14 +72,14 @@ function TableAction({ id, handleDelete, editUrl }: TableActionProps) {
           onClick={() => router.push(editUrl)}
         >
           <SolarPenNewRoundBold className="mr-2 w-4 h-4" />
-          Edit
+          Ubah
         </DropdownMenuItem>
         <DropdownMenuItem
           className="items-center"
           onClick={() => handleDeleteAction(id)}
         >
           <MaterialSymbolsDeleteOutline className="w-4 h-4 mr-2" />
-          Delete
+          Hapus
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,14 +1,6 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
-
-import {
-  addLocationSchema,
-  TAddLocation,
-} from "@/lib/validations/location.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -20,46 +12,59 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import PhotoUpload from "@/components/dashboard/photo-upload";
-import { addLocation } from "@/_actions/location.action";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
-import { Category } from ".prisma/client";
+import PhotoUpload from "@/components/dashboard/photo-upload";
+import { Button } from "@/components/ui/button";
 import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
+import { Category } from ".prisma/client";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
+import { LatLng } from "leaflet";
+import { useForm } from "react-hook-form";
+import {
+  editLocationSchema,
+  TEditLocation,
+} from "@/lib/validations/location.validation";
+import { zodResolver } from "@hookform/resolvers/zod";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LatLng } from "leaflet";
+import { Prisma } from "@prisma/client";
+import { updateLocation } from "@/_actions/location.action";
+import { Separator } from "@/components/ui/separator";
+
+interface EditLocationFormProps {
+  categories: Category[] | null;
+  location: Prisma.LocationGetPayload<{ include: { category: true } }>;
+}
 
 const Coordinate = dynamic(() => import("@/components/coordinates"), {
   ssr: false,
   loading: () => <Skeleton className="w-full block h-10 rounded-md" />,
 });
 
-interface AddLocationFormProps {
-  categories: Category[] | null;
-}
-
-function AddLocationForm({ categories }: AddLocationFormProps) {
+function EditLocationForm({ categories, location }: EditLocationFormProps) {
   const router = useRouter();
   const { toast } = useToast();
-  const [position, setPosition] = useState<LatLng | null>(null);
+  const [position, setPosition] = useState<LatLng | null>(
+    JSON.parse(location.coordinate)
+  );
+  const [images, setImages] = useState<string[] | null>(location.photos);
   const [isPending, startTransition] = useTransition();
-  const form = useForm<TAddLocation>({
-    resolver: zodResolver(addLocationSchema),
+  const form = useForm<TEditLocation>({
+    resolver: zodResolver(editLocationSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      address: "",
-      street: "",
+      name: location.name,
+      description: location.description,
+      address: location.address,
+      street: location.street,
       // category: categories?.at(0)?.name,
-      category: "",
-      coordinate: "",
-      photos: undefined,
+      category: location.category.name,
+      coordinate: JSON.parse(location.coordinate),
+      photos: images as string[],
     },
   });
 
-  const onSubmit = async (values: TAddLocation) => {
+  const onSubmit = async (values: TEditLocation) => {
     const formData = new FormData();
 
     formData.append("name", values.name);
@@ -69,24 +74,27 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
     formData.append("category", values.category);
     formData.append("coordinate", JSON.stringify(values.coordinate));
 
-    for (let value of values.photos as File[]) {
-      formData.append("images[]", value);
+    const isFile = (values.photos as File[]).at(0) instanceof File;
+
+    if (isFile) {
+      for (let value of values.photos as File[]) {
+        formData.append("photos[]", value);
+      }
+    } else {
+      formData.append("photos[]", values.photos as string);
     }
 
     startTransition(() => {
-      addLocation(formData)
+      updateLocation(location.id, formData)
         .then((response) => {
           toast({
-            title: "Add new location",
-            description: "Successfully added new location",
+            title: "Berhasil memperbarui lokasi",
           });
-          router.push("/explore");
         })
         .catch((error) => {
           toast({
             variant: "destructive",
-            title: "Error",
-            description: "Error while adding new location",
+            title: "Gagal memperbarui lokasi",
           });
         });
     });
@@ -248,6 +256,8 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
               name="photos"
               setValue={form.setValue}
               isLoading={isPending}
+              images={images}
+              setImages={setImages}
             />
           </FormControl>
           <span className="text-sm text-rose-500">
@@ -255,23 +265,36 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           </span>
         </FormItem>
 
-        <Button
-          type="submit"
-          className="max-w-[187px] w-full"
-          disabled={isPending}
-        >
-          {isPending ? (
-            <span>
-              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Adding
-              location...
-            </span>
-          ) : (
-            "Add Location"
-          )}
-        </Button>
+        <Separator />
+        <div className="flex space-x-2 items-center">
+          <Button
+            type="submit"
+            className="min-w-[187px] w-full"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <span>
+                <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" />{" "}
+                Memperbarui lokasi...
+              </span>
+            ) : (
+              "Edit Lokasi"
+            )}
+          </Button>
+
+          <Button
+            variant="destructive"
+            type="submit"
+            className="min-w-[187px] w-full"
+            disabled={isPending}
+            onClick={() => router.back()}
+          >
+            Batal
+          </Button>
+        </div>
       </form>
     </Form>
   );
 }
 
-export default AddLocationForm;
+export default EditLocationForm;

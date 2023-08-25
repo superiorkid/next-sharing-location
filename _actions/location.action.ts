@@ -7,6 +7,7 @@ import getCurrentUser from "@/_actions/get-current-user";
 import { revalidateTag } from "next/cache";
 import { Prisma } from ".prisma/client";
 import { NextResponse } from "next/server";
+import { getCategory } from "@/_actions/category.action";
 
 // export const getLocations = async () => {
 //   try {
@@ -80,6 +81,7 @@ export const getLocationById = async (id: string) => {
       },
       include: {
         category: true,
+        author: true,
       },
     });
   } catch (e) {
@@ -98,7 +100,7 @@ export const addLocation = async (values: FormData) => {
   const street = getValue<string>("street");
   const address = getValue<string>("address");
   const category = getValue<string>("category");
-  const coordinate = getValue<any>("coordinate");
+  const coordinate = getValue<string>("coordinate");
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
 
   const uploadPromises = images.map((image) => {
@@ -149,10 +151,10 @@ export const addLocation = async (values: FormData) => {
         slug,
         coordinate: coordinate as string,
         photos: photos as string[],
-        name: name!,
-        description: description!,
-        street: street!,
-        address: address!,
+        name: name as string,
+        description: description as string,
+        street: street as string,
+        address: address as string,
         category: {
           connect: {
             id: checkCategory?.id,
@@ -170,6 +172,104 @@ export const addLocation = async (values: FormData) => {
     return "new location added successfully";
   } catch (error) {
     throw new Error("terjadi kesalahan pada server.");
+  }
+};
+
+export const updateLocation = async (id: string, values: FormData) => {
+  const getValue = <T>(key: string): T | null =>
+    values.get(key) as unknown as T;
+
+  const name = getValue<string>("name");
+  const description = getValue<string>("description");
+  const street = getValue<string>("street");
+  const address = getValue<string>("address");
+  const category = getValue<string>("category");
+  const coordinate = getValue<string>("coordinate");
+  const images: File[] | string | null = values.getAll(
+    "photos[]"
+  ) as unknown as File[];
+
+  let photos;
+
+  // check if file or not
+  const isFile = images?.at(0)?.type;
+  const location = await getLocationById(id);
+
+  if (isFile) {
+    // delete current folder and files inside
+    imagekit.deleteFolder(
+      `/location-sharing-app/images/${location?.slug}`,
+      async (err, response) => {
+        if (err) {
+          return NextResponse.json(
+            { error: "imagekit operation failed" },
+            { status: 500 }
+          );
+        } else {
+          console.log("imagekit operation successfully");
+        }
+      }
+    );
+
+    const uploadPromises = images.map((image) => {
+      return new Promise(async (resolve, reject) => {
+        const bytes = await image.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        imagekit.upload(
+          {
+            file: buffer,
+            fileName: image.name,
+            useUniqueFileName: true,
+            folder: `/location-sharing-app/images/${slugify(name as string)}`,
+          },
+          (err, response) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(response?.filePath);
+            }
+          }
+        );
+      });
+    });
+
+    photos = await Promise.all(uploadPromises);
+  } else {
+    photos = (images?.at(0) as unknown as string)?.split(",");
+  }
+
+  try {
+    const checkCategory = await prisma.category.findUnique({
+      where: {
+        name: category as string,
+      },
+    });
+
+    const updateLocation = await prisma.location.update({
+      where: {
+        id,
+      },
+      data: {
+        slug: slugify(name as string),
+        name: name as string,
+        coordinate: coordinate as string,
+        description: description as string,
+        street: street as string,
+        address: address as string,
+        photos: photos as string[],
+        category: {
+          connect: {
+            id: checkCategory?.id,
+          },
+        },
+      },
+    });
+
+    revalidateTag("location");
+    return "update location successfully";
+  } catch (error) {
+    throw new Error("terjadi kesalahan pada server");
   }
 };
 
