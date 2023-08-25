@@ -13,6 +13,13 @@ import { locationColumn } from "@/components/dashboard/location-columns";
 import Wishlist from "@/components/dashboard/wishlist";
 import getCurrentUser from "@/_actions/get-current-user";
 import { Location } from "@prisma/client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard Pengguna - Media Berbagi Lokasi",
+  description:
+    "Dashboard Pengguna. media informasi berbagi lokasi di lombok timur",
+};
 
 async function Page() {
   const currentUser = await getCurrentUser();

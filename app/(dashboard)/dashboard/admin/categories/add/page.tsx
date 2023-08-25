@@ -3,8 +3,15 @@ import Header from "@/components/header";
 import AddCategoryForm from "@/components/dashboard/add-category-form";
 import EditCategoryForm from "@/components/dashboard/edit-category-form";
 import { getCategory } from "@/_actions/category.action";
+import { Metadata } from "next";
 
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Tambah Kategori - Media Berbagi Lokasi",
+  description:
+    "Tambah Kategori. media informasi berbagi lokasi di lombok timur",
+};
 
 async function Page({
   searchParams: { edit },

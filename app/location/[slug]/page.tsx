@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/accordion";
 import { notFound } from "next/navigation";
 import getCurrentUser from "@/_actions/get-current-user";
+import { Metadata } from "next";
 
 const GoogleMapsWidget = dynamic(
   () => import("@/components/google-maps-widget"),
@@ -25,14 +26,6 @@ const GoogleMapsWidget = dynamic(
   }
 );
 
-// export async function generateStaticParams() {
-//   const locations = await prisma.location.findMany();
-//   const res = locations.map((location) => ({
-//     slug: location.slug,
-//   }));
-//
-// }
-
 interface PageProps {
   params: {
     slug: string;
@@ -40,13 +33,17 @@ interface PageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-// export async function generateStaticParams() {
-//   const locations = await getLocations();
-//
-//   return locations.map((location) => ({
-//     slug: location.slug,
-//   }));
-// }
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const location = await getLocation(params.slug);
+
+  return {
+    title: `${location.name} - Media Berbagi Lokasi`,
+    description: `Detail Lokasi dari ${location.name}`,
+  };
+}
 
 async function Page({ params, searchParams }: PageProps) {
   const location = await getLocation(params.slug);

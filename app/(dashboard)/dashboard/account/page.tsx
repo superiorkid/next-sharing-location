@@ -20,6 +20,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteUser } from "@/_actions/user.action";
 import DeleteAccountActionButton from "@/components/dashboard/delete-account-action-button";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Informasi Akun - Media Berbagi Lokasi",
+  description: "Informasi akun. media informasi berbagi lokasi di lombok timur",
+};
 
 async function Page() {
   const currentUser = await getCurrentUser();

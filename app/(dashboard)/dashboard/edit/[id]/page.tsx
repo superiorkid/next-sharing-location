@@ -1,10 +1,24 @@
 import React from "react";
-import { getLocationById } from "@/_actions/location.action";
+import { getLocation, getLocationById } from "@/_actions/location.action";
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
 import EditLocationForm from "@/components/dashboard/edit-location-form";
 import { getCategories } from "@/_actions/category.action";
 import getCurrentUser from "@/_actions/get-current-user";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const location = await getLocationById(params.id);
+
+  return {
+    title: `Edit ${location?.name} - Media Berbagi Lokasi`,
+    description: `Edit Lokasi dari ${location?.name}`,
+  };
+}
 
 async function Page({ params }: { params: { id: string } }) {
   const currentUser = await getCurrentUser();
