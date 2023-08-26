@@ -16,7 +16,7 @@ function Footer() {
           <IcBaselineFavorite className="w-4 h-4 inline text-rose-500" /> by me.
         </span>
         <Link
-          href="#my-github-repos"
+          href="https://github.com/superiorkid/next-sharing-location"
           className={cn(
             buttonVariants({ variant: "secondary", size: "icon" }),
             "bg-background"
