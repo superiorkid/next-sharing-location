@@ -9,9 +9,9 @@ function Header({ title, shortDescription }: HeaderProps) {
   return (
     <section className="pb-6">
       <h1 className="text-2xl font-bold">{title}</h1>
-      <span className="text-sm text-gray-700 leading-snug dark:invert">
+      <p className="text-sm text-gray-700 leading-snug dark:invert">
         {shortDescription}
-      </span>
+      </p>
     </section>
   );
 }
