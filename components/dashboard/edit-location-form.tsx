@@ -56,11 +56,14 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
       name: location.name,
       description: location.description,
       address: location.address,
-      street: location.street,
       // category: categories?.at(0)?.name,
       category: location.category.name,
       coordinate: JSON.parse(location.coordinate),
       photos: images as string[],
+      whatsapp: location.whatsapp as string,
+      facebook: location.facebook as string,
+      instagram: location.instagram as string,
+      website: location.website as string,
     },
   });
 
@@ -69,10 +72,13 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
 
     formData.append("name", values.name);
     formData.append("description", values.description);
-    formData.append("street", values.street);
     formData.append("address", values.address);
     formData.append("category", values.category);
     formData.append("coordinate", JSON.stringify(values.coordinate));
+    formData.append("website", values.website as string);
+    formData.append("whatsapp", values.whatsapp as string);
+    formData.append("instagram", values.instagram as string);
+    formData.append("facebook", values.facebook as string);
 
     const isFile = (values.photos as File[]).at(0) instanceof File;
 
@@ -90,6 +96,7 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
           toast({
             title: "Berhasil memperbarui lokasi",
           });
+          router.back();
         })
         .catch((error) => {
           toast({
@@ -158,27 +165,6 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
               </FormControl>
               <FormDescription className="text-sm italic">
                 Contoh: Lendang Bedurik, Kec. Selong
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="street"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Jalan</FormLabel>
-              <FormControl>
-                <Input
-                  disabled={isPending}
-                  placeholder="Ketik jalan disini..."
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription className="text-sm italic">
-                Contoh: jl. imam bonjol no.1 pancor
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -265,7 +251,103 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
           </span>
         </FormItem>
 
+        {/*Daftar Kontak*/}
+        <div className="grid grid-cols-2 gap-4 bg-gray-100 dark:bg-primary-foreground p-4 rounded-md">
+          <FormField
+            control={form.control}
+            name="whatsapp"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Whatsapp{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik Nomor whatsapp disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="website"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Website{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik Website URL disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="instagram"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Instagram{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik useraname instagram disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="facebook"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Facebook{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik useraname facebook disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <Separator />
+
         <div className="flex space-x-2 items-center">
           <Button
             type="submit"

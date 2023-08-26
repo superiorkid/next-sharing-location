@@ -4,21 +4,16 @@ import Header from "@/components/header";
 import getCurrentUser from "@/_actions/get-current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { headers } from "next/headers";
 import MaterialSymbolsMailRounded from "@/components/icons/MaterialSymbolsMailRounded";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { deleteUser } from "@/_actions/user.action";
 import DeleteAccountActionButton from "@/components/dashboard/delete-account-action-button";
 import { Metadata } from "next";
 
@@ -32,10 +27,7 @@ async function Page() {
 
   return (
     <section>
-      <Header
-        title="Account Information"
-        shortDescription="your account information"
-      />
+      <Header title="Informasi Akun" shortDescription="Informasi umum akun" />
       <div className="px-6 py-10 bg-gray-50 dark:bg-background dark:text-foreground rounded-md">
         <div className="w-2/3 space-y-6">
           <div className="w-full space-y-2 rounded-md">

@@ -1,5 +1,5 @@
 import React from "react";
-import { getLocation, getLocationById } from "@/_actions/location.action";
+import { getLocationById } from "@/_actions/location.action";
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
 import EditLocationForm from "@/components/dashboard/edit-location-form";

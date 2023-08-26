@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import MaterialSymbolsCalendarMonth from "@/components/icons/MaterialSymbolsCalendarMonth";
 import UserCard from "@/components/user-card";
 import moment from "moment";
+import Link from "next/link";
 
 interface AuthorInformationProps {
   author: string;
@@ -16,6 +17,7 @@ interface AuthorInformationProps {
   createdAt: Date;
   authorImage: string;
   email: string;
+  slug: string;
 }
 
 function AuthorInformation({
@@ -24,6 +26,7 @@ function AuthorInformation({
   category,
   email,
   createdAt,
+  slug,
 }: AuthorInformationProps) {
   return (
     <div className="flex justify-between items-center p-1.5">
@@ -34,9 +37,12 @@ function AuthorInformation({
       <div className="flex items-center space-x-3">
         <p>
           kategori:{" "}
-          <span className="border rounded-md py-1.5 px-2.5 hover:cursor-pointer bg-gray-100 hover:bg-gray-200 font-thin">
+          <Link
+            href={`/location/${slug}?category=${category}`}
+            className="border rounded-md dark:bg-primary-foreground py-1.5 px-2.5 hover:cursor-pointer bg-gray-100 hover:bg-gray-200 font-thin"
+          >
             {category}
-          </span>
+          </Link>
         </p>
         <p>
           dibuat:{" "}

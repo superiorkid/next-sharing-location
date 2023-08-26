@@ -51,12 +51,6 @@ export const locationColumn: ColumnDef<
     ),
   },
   {
-    accessorKey: "street",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jalan" />
-    ),
-  },
-  {
     accessorKey: "address",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Alamat" />

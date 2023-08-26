@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import HumbleiconsDotsHorizontal from "@/components/icons/HumbleiconsDotsHorizontal";
-import MaterialSymbolsContentCopyRounded from "@/components/icons/MaterialSymbolsContentCopyRounded";
 import SolarPenNewRoundBold from "@/components/icons/SolarPenNewRoundBold";
 import MaterialSymbolsDeleteOutline from "@/components/icons/MaterialSymbolsDeleteOutline";
 import { useToast } from "@/components/ui/use-toast";
@@ -63,10 +62,6 @@ function TableAction({ id, handleDelete, editUrl }: TableActionProps) {
       <DropdownMenuContent>
         <DropdownMenuLabel>Pilih Aksi</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="items-center">
-          <MaterialSymbolsContentCopyRounded className="w-4 h-4 mr-2" />
-          Copy ID to clipboard
-        </DropdownMenuItem>
         <DropdownMenuItem
           className="items-center"
           onClick={() => router.push(editUrl)}
@@ -75,7 +70,7 @@ function TableAction({ id, handleDelete, editUrl }: TableActionProps) {
           Ubah
         </DropdownMenuItem>
         <DropdownMenuItem
-          className="items-center"
+          className="items-center text-destructive"
           onClick={() => handleDeleteAction(id)}
         >
           <MaterialSymbolsDeleteOutline className="w-4 h-4 mr-2" />

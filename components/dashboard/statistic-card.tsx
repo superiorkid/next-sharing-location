@@ -21,7 +21,7 @@ function StatisticCard({ value, title, description }: StatisticCardProps) {
         <CardTitle className="text-xl lg:text-2xl">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <strong className="absolute top-1/3 right-7 text-gray-800 text-4xl">
+      <strong className="absolute top-1/3 right-7 text-gray-800 text-4xl dark:text-foreground">
         {value}
       </strong>
     </Card>

@@ -17,8 +17,6 @@ export async function GET(
       },
     });
 
-    console.log(location);
-
     return NextResponse.json({ data: location }, { status: 200 });
   } catch (error) {
     return NextResponse.json(

@@ -50,9 +50,12 @@ model Location {
   slug        String    @unique
   description String
   address     String
-  street      String
   coordinate  String
   photos      String[]
+  whatsapp    String?
+  facebook    String?
+  instagram   String?
+  website     String?
   authorId    String    @db.ObjectId
   author      User      @relation("author", fields: [authorId], references: [id], onDelete: Cascade)
   categoryId  String    @db.ObjectId

@@ -3,7 +3,6 @@ import React from "react";
 import Header from "@/components/header";
 import AddLocationForm from "@/components/dashboard/add-location-form";
 import { getCategories } from "@/_actions/category.action";
-import { getLocation, getLocationById } from "@/_actions/location.action";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -16,7 +16,7 @@ async function Page() {
   const locationTotal = await getLocationTotals();
   const categoryTotal = await getCategoryTotals();
   return (
-    <div className="p-6 rounded-md bg-gray-50">
+    <div className="p-6 rounded-md bg-gray-50 dark:bg-primary-foreground">
       <div className="flex flex-col lg:flex-row space-y-2.5 lg:space-y-0 lg:space-x-2.5">
         <StatisticCard
           title="Total User"

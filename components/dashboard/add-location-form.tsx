@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LatLng } from "leaflet";
+import { Separator } from "@/components/ui/separator";
 
 const Coordinate = dynamic(() => import("@/components/coordinates"), {
   ssr: false,
@@ -51,10 +52,13 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
       name: "",
       description: "",
       address: "",
-      street: "",
       // category: categories?.at(0)?.name,
       category: "",
       coordinate: "",
+      whatsapp: "",
+      website: "",
+      facebook: "",
+      instagram: "",
       photos: undefined,
     },
   });
@@ -64,10 +68,13 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
 
     formData.append("name", values.name);
     formData.append("description", values.description);
-    formData.append("street", values.street);
     formData.append("address", values.address);
     formData.append("category", values.category);
     formData.append("coordinate", JSON.stringify(values.coordinate));
+    formData.append("whatsapp", values.whatsapp as string);
+    formData.append("website", values.website as string);
+    formData.append("instagram", values.instagram as string);
+    formData.append("facebook", values.facebook as string);
 
     for (let value of values.photos as File[]) {
       formData.append("images[]", value);
@@ -115,7 +122,6 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="description"
@@ -134,7 +140,6 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="address"
@@ -148,35 +153,13 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
                   {...field}
                 />
               </FormControl>
-              <FormDescription className="text-sm italic">
-                Contoh: Lendang Bedurik, Kec. Selong
+              <FormDescription className="text-sm font-light">
+                Contoh: Dasan Lekong, Kec. Sukamulia
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="street"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Jalan</FormLabel>
-              <FormControl>
-                <Input
-                  disabled={isPending}
-                  placeholder="Ketik jalan disini..."
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription className="text-sm italic">
-                Contoh: jl. imam bonjol no.1 pancor
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormItem>
           <FormLabel
             className={cn(form.formState.errors.coordinate && "text-rose-500")}
@@ -197,7 +180,6 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             {form.formState.errors.coordinate?.message as string}
           </span>
         </FormItem>
-
         <FormField
           control={form.control}
           name="category"
@@ -236,7 +218,6 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
-
         <FormItem>
           <FormLabel
             className={cn(form.formState.errors.photos && "text-rose-500")}
@@ -255,6 +236,101 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           </span>
         </FormItem>
 
+        {/*Daftar Kontak*/}
+        <div className="grid grid-cols-2 gap-4 bg-gray-100 dark:bg-primary-foreground p-4 rounded-md">
+          <FormField
+            control={form.control}
+            name="whatsapp"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Whatsapp{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik Nomor whatsapp disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="website"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Website{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik Website URL disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="instagram"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Instagram{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik useraname instagram disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="facebook"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Facebook{" "}
+                  <span className="font-light text-gray-700 dark:text-foreground">
+                    (Opsional)
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    disabled={isPending}
+                    placeholder="Ketik useraname facebook disini..."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <Separator />
         <Button
           type="submit"
           className="max-w-[187px] w-full"

@@ -17,7 +17,7 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import L, { LatLng, LeafletMouseEvent } from "leaflet";
+import L, { Icon, LatLng, LeafletMouseEvent } from "leaflet";
 import { FieldValues, Path, PathValue, UseFormSetValue } from "react-hook-form";
 import Control from "react-leaflet-custom-control";
 import { useGeolocation } from "@uidotdev/usehooks";
@@ -92,6 +92,11 @@ interface LocationMarkerProps<TFieldVallues extends FieldValues>
   setPosition: React.Dispatch<React.SetStateAction<LatLng | null>>;
 }
 
+const myIcon = new Icon({
+  iconUrl: "/images/marker.svg",
+  iconSize: [32, 32],
+});
+
 function LocationMarker<T extends FieldValues>({
   name,
   setValue,
@@ -110,7 +115,7 @@ function LocationMarker<T extends FieldValues>({
   });
 
   return position === null ? null : (
-    <Marker position={position}>
+    <Marker position={position} icon={myIcon}>
       <Popup>You are here</Popup>
     </Marker>
   );

@@ -17,6 +17,12 @@ import {
 import { notFound } from "next/navigation";
 import getCurrentUser from "@/_actions/get-current-user";
 import { Metadata } from "next";
+import IcBaselineLocationOn from "@/components/icons/IcBaselineLocationOn";
+import MdiWeb from "@/components/icons/MdiWeb";
+import MdiWhatsapp from "@/components/icons/MdiWhatsapp";
+import MdiInstagram from "@/components/icons/MdiInstagram";
+import MdiFacebook from "@/components/icons/MdiFacebook";
+import Link from "next/link";
 
 const GoogleMapsWidget = dynamic(
   () => import("@/components/google-maps-widget"),
@@ -25,6 +31,11 @@ const GoogleMapsWidget = dynamic(
     loading: () => <Skeleton className="h-[15dvh] w-full" />,
   }
 );
+
+const MapsWidget = dynamic(() => import("@/components/dashboard/maps-widget"), {
+  ssr: false,
+  loading: () => <Skeleton className="h-full w-full" />,
+});
 
 interface PageProps {
   params: {
@@ -69,6 +80,7 @@ async function Page({ params, searchParams }: PageProps) {
               </div>
               <Separator className="my-3" />
               <AuthorInformation
+                slug={location.slug as string}
                 author={location.author.name as string}
                 authorImage={location.author.image as string}
                 email={location.author.email as string}
@@ -78,23 +90,7 @@ async function Page({ params, searchParams }: PageProps) {
               <Separator className="my-3" />
 
               <article className="prose prose-stone dark:prose-invert my-8">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Animi consequatur cum dicta minima modi nemo perferendis. Ab
-                  accusamus aliquid culpa cumque ea eveniet hic iste maxime
-                  minima porro quibusdam, ratione similique soluta vero voluptas
-                  voluptatibus voluptatum! Adipisci autem beatae, et ipsa itaque
-                  labore libero maxime odio quae quibusdam veniam, veritatis?
-                </p>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Accusamus accusantium aperiam consectetur deleniti deserunt
-                  ipsam laudantium nisi quisquam quo, repellendus. Adipisci
-                  aperiam architecto autem consequatur consequuntur debitis
-                  delectus, excepturi fuga harum hic ipsam iure iusto, labore
-                  laboriosam natus nemo numquam omnis perspiciatis possimus quae
-                  qui reiciendis rerum tempore totam unde?
-                </p>
+                <p>{location.description}</p>
               </article>
 
               <ImageList images={location.photos} />
@@ -111,27 +107,54 @@ async function Page({ params, searchParams }: PageProps) {
               >
                 <AccordionItem value="item-1">
                   <AccordionTrigger className="font-bold text-xl">
-                    Informasi tambahan
+                    Kontak
                   </AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-3">
-                      <div>
-                        <h5 className="font-semibold hover:underline">
-                          Alamat
-                        </h5>
-                        <p className="font-extralight">{location.address}</p>
-                      </div>
-                      <div>
-                        <h5 className="font-semibold hover:underline">Jalan</h5>
-                        <p className="font-extralight">{location.street}</p>
-                      </div>
+                    <div className="space-y-2">
+                      <p className="font-extralight">
+                        <IcBaselineLocationOn className="inline w-4 h-4 mx-1 self-center" />
+                        {location.address}
+                      </p>
+
+                      {location.whatsapp && (
+                        <Link
+                          href={`https://wa.me/${location.whatsapp}`}
+                          target="_blank"
+                          className="font-extralight hover:underline hover:cursor-pointer"
+                        >
+                          <MdiWhatsapp className="inline w-4 h-4 mx-1" />
+                          {location.whatsapp}
+                        </Link>
+                      )}
+
+                      {location.instagram && (
+                        <p className="font-extralight">
+                          <MdiInstagram className="inline w-4 h-4 mx-1" />
+                          {location.instagram}
+                        </p>
+                      )}
+
+                      {location.facebook && (
+                        <p className="font-extralight">
+                          <MdiFacebook className="inline w-4 h-4 mx-1" />
+                          {location.facebook}
+                        </p>
+                      )}
+
+                      {location.website && (
+                        <p className="font-extralight">
+                          <MdiWeb className="inline w-4 h-4 mx-1 self-center" />
+                          {location.website}
+                        </p>
+                      )}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
 
-              <div className="shadow-md w-full p-3 rounded-md">
-                <GoogleMapsWidget position={location.coordinate} />
+              <div className="shadow-md w-full h-[253px] p-3 rounded-md">
+                <MapsWidget position={location.coordinate} />
+                {/*<GoogleMapsWidget position={location.coordinate} />*/}
               </div>
             </div>
           </aside>

@@ -7,37 +7,13 @@ import getCurrentUser from "@/_actions/get-current-user";
 import { revalidateTag } from "next/cache";
 import { Prisma } from ".prisma/client";
 import { NextResponse } from "next/server";
-import { getCategory } from "@/_actions/category.action";
-
-// export const getLocations = async () => {
-//   try {
-//     const res = await fetch(
-//       `${process.env.NEXT_PUBLIC_BASE_URL}/api/location`,
-//       {
-//         method: "GET",
-//         next: {
-//           tags: ["location"],
-//           revalidate: 0,
-//         },
-//       }
-//     );
-//
-//     if (!res) {
-//       throw new Error("failed to fetch category");
-//     }
-//
-//     const { data } = await res.json();
-//     return data as Prisma.LocationGetPayload<{
-//       include: { category: true; author: true };
-//     }>[];
-//   } catch (error) {
-//     return null;
-//   }
-// };
 
 export const getLocations = async () => {
   try {
     const locations = await prisma.location.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
       include: {
         category: true,
         author: true,
@@ -95,12 +71,16 @@ export const addLocation = async (values: FormData) => {
 
   const currentUser = await getCurrentUser();
 
-  const name = getValue<string>("name");
-  const description = getValue<string>("description");
-  const street = getValue<string>("street");
-  const address = getValue<string>("address");
+  const name = getValue<string>("name")?.toLowerCase();
+  const description = getValue<string>("description")?.toLowerCase();
+  const address = getValue<string>("address")?.toLowerCase();
   const category = getValue<string>("category");
   const coordinate = getValue<string>("coordinate");
+  const website = getValue<string | null>("website")?.toLowerCase();
+  const instagram = getValue<string | null>("instagram")?.toLowerCase();
+  const facebook = getValue<string | null>("facebook")?.toLowerCase();
+  const whatsapp = getValue<string | null>("whatsapp")?.toLowerCase();
+
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
 
   const uploadPromises = images.map((image) => {
@@ -153,8 +133,11 @@ export const addLocation = async (values: FormData) => {
         photos: photos as string[],
         name: name as string,
         description: description as string,
-        street: street as string,
         address: address as string,
+        whatsapp: whatsapp as string,
+        instagram: instagram as string,
+        facebook: facebook as string,
+        website: website as string,
         category: {
           connect: {
             id: checkCategory?.id,
@@ -179,15 +162,18 @@ export const updateLocation = async (id: string, values: FormData) => {
   const getValue = <T>(key: string): T | null =>
     values.get(key) as unknown as T;
 
-  const name = getValue<string>("name");
-  const description = getValue<string>("description");
-  const street = getValue<string>("street");
-  const address = getValue<string>("address");
+  const name = getValue<string>("name")?.toLowerCase();
+  const description = getValue<string>("description")?.toLowerCase();
+  const address = getValue<string>("address")?.toLowerCase();
   const category = getValue<string>("category");
   const coordinate = getValue<string>("coordinate");
   const images: File[] | string | null = values.getAll(
     "photos[]"
   ) as unknown as File[];
+  const website = getValue<string>("website")?.toLowerCase();
+  const facebook = getValue<string>("facebook")?.toLowerCase();
+  const instagram = getValue<string>("instagram")?.toLowerCase();
+  const whatsapp = getValue<string>("whatsapp")?.toLowerCase();
 
   let photos;
 
@@ -255,9 +241,12 @@ export const updateLocation = async (id: string, values: FormData) => {
         name: name as string,
         coordinate: coordinate as string,
         description: description as string,
-        street: street as string,
         address: address as string,
         photos: photos as string[],
+        whatsapp: whatsapp,
+        website: website,
+        facebook: facebook,
+        instagram: instagram,
         category: {
           connect: {
             id: checkCategory?.id,
@@ -467,10 +456,7 @@ export const removeFromWishlist = async (slug: string) => {
   }
 };
 
-export const getLocationByCategory = async (
-  param: string,
-  sort: "asc" | "desc" = "asc"
-) => {
+export const getLocationByCategory = async (param: string) => {
   const categories = await prisma.location.findMany({
     where: {
       category: {
@@ -478,7 +464,7 @@ export const getLocationByCategory = async (
       },
     },
     orderBy: {
-      name: sort,
+      createdAt: "desc",
     },
   });
 

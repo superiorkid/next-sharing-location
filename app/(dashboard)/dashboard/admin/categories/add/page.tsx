@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "@/components/header";
 import AddCategoryForm from "@/components/dashboard/add-category-form";
-import EditCategoryForm from "@/components/dashboard/edit-category-form";
 import { getCategory } from "@/_actions/category.action";
 import { Metadata } from "next";
 

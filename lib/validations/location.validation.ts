@@ -1,13 +1,27 @@
 import { z } from "zod";
+import { asOptionalField } from "@/lib/validations/optional-string";
 
 export const locationSchema = z.object({
-  name: z.string().min(3).max(25),
-  street: z.string().min(1, "Jalan is Required"),
-  address: z.string().min(1, "Alamat is Required"),
+  name: z
+    .string()
+    .regex(
+      new RegExp(
+        '/^[^\\s^\x00-\x1f\\\\?*:"";<>|\\/.][^\x00-\x1f\\\\?*:"";<>|\\/]*[^\\s^\x00-\x1f\\\\?*:"";<>|\\/.]+$/g'
+      ),
+      "Error: Invalid regex format for folder name validation."
+    )
+    .min(3)
+    .max(50),
   description: z.string().min(12),
+  address: z.string().min(1, "Alamat is Required"),
   category: z.string().min(1, "Kategori harus dipilih"),
-
   coordinate: z.unknown().refine((val) => typeof val === "object"),
+
+  // contact field (optional field)
+  whatsapp: asOptionalField(z.string()),
+  website: asOptionalField(z.string()),
+  instagram: asOptionalField(z.string()),
+  facebook: asOptionalField(z.string()),
 });
 
 export const addLocationSchema = locationSchema.extend({

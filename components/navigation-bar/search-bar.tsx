@@ -47,7 +47,7 @@ function SearchBar({ open, setOpen }: SearchBarProps) {
         onValueChange={(search) => setSearch(search)}
       />
       <CommandList>
-        <ScrollArea className="max-h-[20dvh]">
+        <ScrollArea className="min-h-[20dvh]">
           <CommandEmpty>Hasil tidak ditemukan.</CommandEmpty>
           <CommandGroup heading="Hasil">
             {locations?.slice(0, 8).map((location, index) => (

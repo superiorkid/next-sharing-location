@@ -52,12 +52,6 @@ export const locationColumnsAdmin: ColumnDef<
     ),
   },
   {
-    accessorKey: "street",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Jalan" />
-    ),
-  },
-  {
     accessorKey: "author",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Author" />
