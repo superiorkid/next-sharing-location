@@ -22,6 +22,7 @@ import MaterialSymbolsArrowOutwardRounded from "@/components/icons/MaterialSymbo
 import MdiEye from "@/components/icons/MdiEye";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 export const locationColumnsAdmin: ColumnDef<
   Prisma.LocationGetPayload<{ include: { category: true; author: true } }>
@@ -50,6 +51,16 @@ export const locationColumnsAdmin: ColumnDef<
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Nama" />
     ),
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      const slug = row.original.slug;
+
+      return (
+        <Link href={`/location/${slug}`} className="hover:cursor-pointer">
+          {name as string}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "author",
@@ -76,9 +87,7 @@ export const locationColumnsAdmin: ColumnDef<
   },
   {
     accessorKey: "description",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Deskripsi" />
-    ),
+    header: "Deskripsi",
     cell: ({ row }) => {
       const description = row.getValue("description");
 
@@ -90,7 +99,7 @@ export const locationColumnsAdmin: ColumnDef<
             </Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogHeader>
+            <DialogHeader className="space-y-2">
               <DialogTitle>Deskripsi</DialogTitle>
               <DialogDescription className="prose prose-xl mt-5">
                 <p>{description as string}</p>

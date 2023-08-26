@@ -46,31 +46,6 @@ async function Page({ params }: { params: { id: string } }) {
       </div>
     </section>
   );
-
-  // if (!location) {
-  //   notFound();
-  // } else if (
-  //   currentUser?.role !== "ADMIN" ||
-  //   currentUser.id !== location.authorId
-  // ) {
-  //   return (
-  //     <section className="space-y-4">
-  //       <Header
-  //         title="Akses ditolak"
-  //         shortDescription="Anda tidak memiliki akses untuk sumber daya ini."
-  //       />
-  //     </section>
-  //   );
-  // } else {
-  //   return (
-  //     <section className="space-y-4">
-  //       <Header title="Edit Location" shortDescription="Edit location" />
-  //       <div className="border p-6 rounded-md shadow-sm">
-  //         <EditLocationForm categories={categories} location={location} />
-  //       </div>
-  //     </section>
-  //   );
-  // }
 }
 
 export default Page;

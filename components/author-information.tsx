@@ -30,7 +30,7 @@ function AuthorInformation({
         <p>
           kategori:{" "}
           <Link
-            href={`/location?category=${category}`}
+            href={`/explore?category=${category}`}
             className="border rounded-md dark:bg-primary-foreground py-1.5 px-2.5 hover:cursor-pointer bg-gray-100 hover:bg-gray-200 font-thin"
           >
             {category}
