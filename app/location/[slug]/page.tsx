@@ -23,6 +23,8 @@ import MdiWhatsapp from "@/components/icons/MdiWhatsapp";
 import MdiInstagram from "@/components/icons/MdiInstagram";
 import MdiFacebook from "@/components/icons/MdiFacebook";
 import Link from "next/link";
+import LocationDetailImageSlider from "@/components/location-detail-image-slider";
+import LocationDetailSidebar from "@/components/location-detail-sidebar";
 
 const GoogleMapsWidget = dynamic(
   () => import("@/components/google-maps-widget"),
@@ -31,11 +33,6 @@ const GoogleMapsWidget = dynamic(
     loading: () => <Skeleton className="h-[15dvh] w-full" />,
   }
 );
-
-const MapsWidget = dynamic(() => import("@/components/dashboard/maps-widget"), {
-  ssr: false,
-  loading: () => <Skeleton className="h-full w-full" />,
-});
 
 interface PageProps {
   params: {
@@ -65,11 +62,11 @@ async function Page({ params, searchParams }: PageProps) {
   } else {
     return (
       <Container>
-        <div className="min-h-full flex space-x-7 max-w-5xl mx-auto">
+        <div className="min-h-full flex flex-col lg:flex-row space-x-7 max-w-5xl mx-auto">
           <main className="flex-1 min-w-0 overflow-auto bg-background rounded-md">
             <div className="px-6 py-3">
               <div className="flex justify-between items-center">
-                <h1 className="text-5xl font-semibold my-6 uppercase">
+                <h1 className="text-4xl lg:text-5xl font-semibold my-6 uppercase">
                   {location.name}
                 </h1>
                 <AddToWishlist
@@ -88,7 +85,6 @@ async function Page({ params, searchParams }: PageProps) {
                 createdAt={location.createdAt}
               />
               <Separator className="my-3" />
-
               <article className="prose prose-stone dark:prose-invert my-8">
                 <p>{location.description}</p>
               </article>
@@ -98,66 +94,14 @@ async function Page({ params, searchParams }: PageProps) {
             </div>
           </main>
 
-          <aside className="w-80 flex-none relative bg-background rounded-md mt-12">
-            <div className="absolute w-full space-y-4">
-              <Accordion
-                collapsible
-                type="single"
-                className="shadow-md w-full rounded-md p-3"
-              >
-                <AccordionItem value="item-1">
-                  <AccordionTrigger className="font-bold text-xl">
-                    Kontak
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-2">
-                      <p className="font-extralight">
-                        <IcBaselineLocationOn className="inline w-4 h-4 mx-1 self-center" />
-                        {location.address}
-                      </p>
-
-                      {location.whatsapp && (
-                        <Link
-                          href={`https://wa.me/${location.whatsapp}`}
-                          target="_blank"
-                          className="font-extralight hover:underline hover:cursor-pointer"
-                        >
-                          <MdiWhatsapp className="inline w-4 h-4 mx-1" />
-                          {location.whatsapp}
-                        </Link>
-                      )}
-
-                      {location.instagram && (
-                        <p className="font-extralight">
-                          <MdiInstagram className="inline w-4 h-4 mx-1" />
-                          {location.instagram}
-                        </p>
-                      )}
-
-                      {location.facebook && (
-                        <p className="font-extralight">
-                          <MdiFacebook className="inline w-4 h-4 mx-1" />
-                          {location.facebook}
-                        </p>
-                      )}
-
-                      {location.website && (
-                        <p className="font-extralight">
-                          <MdiWeb className="inline w-4 h-4 mx-1 self-center" />
-                          {location.website}
-                        </p>
-                      )}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-
-              <div className="shadow-md w-full h-[253px] p-3 rounded-md">
-                <MapsWidget position={location.coordinate} />
-                {/*<GoogleMapsWidget position={location.coordinate} />*/}
-              </div>
-            </div>
-          </aside>
+          <LocationDetailSidebar
+            address={location.address}
+            facebook={location.facebook as string}
+            website={location.website as string}
+            coordinate={location.coordinate}
+            whatsapp={location.whatsapp as string}
+            instagram={location.instagram as string}
+          />
         </div>
       </Container>
     );

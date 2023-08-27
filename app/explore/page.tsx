@@ -35,7 +35,7 @@ async function Page({ searchParams: { category } }: ExplorePageProps) {
       <Container className="py-6 px-3">
         <Header
           title={"Temukan Lokasi Favoritmu"}
-          shortDescription="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur doloremque recusandae repellat."
+          shortDescription="Discover the Extraordinary: Unveiling Unique Destinations Together"
         />
 
         <FilteredTabs
