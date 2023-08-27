@@ -9,6 +9,7 @@ const nextConfig = {
       "ik.imagekit.io",
       "avatars.githubusercontent.com",
       "lh3.googleusercontent.com",
+      "images.unsplash.com",
     ],
   },
 };

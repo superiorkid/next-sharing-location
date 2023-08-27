@@ -27,31 +27,29 @@ async function MobileMenu() {
       <SheetContent side="left" className="w-full py-16">
         <div className="flex flex-col justify-between  h-full">
           <div className="w-full flex flex-col space-y-3 rounded-md">
-            <SearchBarTrigger />
-            <Link href="#" className="p-3 text-center">
-              explore
+            <Link href="/explore" className="p-3 text-center">
+              Jelajah
             </Link>
-            <Link href="#" className="p-3 text-center">
-              about
+            <Link href="/about" className="p-3 text-center">
+              Tentang
             </Link>
             {currentUser && (
               <>
                 <Separator />
-                <Link href="#" className="p-3 text-center">
-                  Account
+                <Link href="/dashboard/account" className="p-3 text-center">
+                  Akun
                 </Link>
-                <Link href="#" className="p-3 text-center">
+                <Link href="/dashboard" className="p-3 text-center">
                   Dashboard
                 </Link>
                 {currentUser.role === "ADMIN" && (
-                  <Link href="#" className="p-3 text-center">
+                  <Link href="/dashboard/admin" className="p-3 text-center">
                     Admin
                   </Link>
                 )}
               </>
             )}
           </div>
-          <div></div>
         </div>
       </SheetContent>
     </Sheet>

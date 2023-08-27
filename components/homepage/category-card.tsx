@@ -13,13 +13,13 @@ function CategoryCard({ category }: CategoryCardProps) {
       <Image
         fill
         priority
-        src="/images/category-cover.jpg"
+        src="https://images.unsplash.com/photo-1585854467604-cf2080ccef31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80"
         alt="category cover"
-        className="absolute object-cover brightness-75 rounded-md group-hover:cursor-pointer"
+        className="absolute object-cover brightness-75 rounded-md group-hover:cursor-pointer grayscale"
       />
       <Link
         href={`/explore?category=${category.name}`}
-        className="uppercase font-semibold  z-10 text-gray-100"
+        className="uppercase font-semibold z-10 text-gray-50 tracking-wide"
       >
         {category.name}
       </Link>
