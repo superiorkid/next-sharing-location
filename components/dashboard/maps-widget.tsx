@@ -22,7 +22,7 @@ interface MapsWidgetProps {
 }
 
 const myIcon = new Icon({
-  iconUrl: "/images/marker.svg",
+  iconUrl: "https://www.svgrepo.com/show/513317/location-pin.svg",
   iconSize: [32, 32],
 });
 
