@@ -1,3 +1,3 @@
 ## next-sharing-location
 
-- [ ] web animation
+- [ ] web animation (incomplete)
