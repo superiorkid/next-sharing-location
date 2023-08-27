@@ -7,7 +7,7 @@ import { revalidateTag } from "next/cache";
 
 export async function getUsers() {
   try {
-    const res = await fetch("http://localhost:3000/api/user", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user`, {
       method: "GET",
       next: {
         tags: ["user"],
