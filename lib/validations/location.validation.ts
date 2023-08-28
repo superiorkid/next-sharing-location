@@ -5,9 +5,7 @@ export const locationSchema = z.object({
   name: z
     .string()
     .regex(
-      new RegExp(
-        '/^[^\\s^\x00-\x1f\\\\?*:"";<>|\\/.][^\x00-\x1f\\\\?*:"";<>|\\/]*[^\\s^\x00-\x1f\\\\?*:"";<>|\\/.]+$/g'
-      ),
+      new RegExp('^[^\\\\/?%*:|"<>]+$'),
       "Error: Invalid regex format for folder name validation."
     )
     .min(3)
