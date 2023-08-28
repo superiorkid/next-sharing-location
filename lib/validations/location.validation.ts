@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { asOptionalField } from "@/lib/validations/optional-string";
+import validator from "validator";
 
 export const locationSchema = z.object({
   name: z
@@ -17,7 +18,7 @@ export const locationSchema = z.object({
 
   // contact field (optional field)
   whatsapp: asOptionalField(z.string()),
-  website: asOptionalField(z.string()),
+  website: asOptionalField(z.string().refine((val) => validator.isURL(val))),
   instagram: asOptionalField(z.string()),
   facebook: asOptionalField(z.string()),
 });
