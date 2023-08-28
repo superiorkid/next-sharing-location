@@ -2,7 +2,7 @@ import React from "react";
 
 interface HeaderProps {
   title: string;
-  shortDescription: string;
+  shortDescription?: string;
 }
 
 function Header({ title, shortDescription }: HeaderProps) {

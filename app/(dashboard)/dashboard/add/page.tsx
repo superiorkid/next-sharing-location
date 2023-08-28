@@ -16,8 +16,8 @@ async function Page({ searchParams }: { searchParams: { edit?: string } }) {
   return (
     <section className="space-y-4">
       <Header
-        title="Add New Location"
-        shortDescription="Add New Location To share with people"
+        title="Tambah Lokasi Baru"
+        shortDescription="Tambahkan lokasi baru & Berbagi dengan orang lain"
       />
       <div className="border p-6 rounded-md shadow-sm">
         <AddLocationForm categories={categories} />

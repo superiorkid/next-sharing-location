@@ -40,7 +40,7 @@ async function Page({ params }: { params: { id: string } }) {
 
   return (
     <section className="space-y-4">
-      <Header title="Edit Location" shortDescription="Edit location" />
+      <Header title="Ubah Lokasi" shortDescription="Perbaiki & Ubah Lokasi" />
       <div className="border p-6 rounded-md shadow-sm">
         <EditLocationForm categories={categories} location={location} />
       </div>
