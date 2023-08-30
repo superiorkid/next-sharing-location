@@ -8,22 +8,9 @@ import ImageList from "@/components/image-list";
 import AddToWishlist from "@/components/add-to-wishlist";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { notFound } from "next/navigation";
 import getCurrentUser from "@/_actions/get-current-user";
 import { Metadata } from "next";
-import IcBaselineLocationOn from "@/components/icons/IcBaselineLocationOn";
-import MdiWeb from "@/components/icons/MdiWeb";
-import MdiWhatsapp from "@/components/icons/MdiWhatsapp";
-import MdiInstagram from "@/components/icons/MdiInstagram";
-import MdiFacebook from "@/components/icons/MdiFacebook";
-import Link from "next/link";
-import LocationDetailImageSlider from "@/components/location-detail-image-slider";
 import LocationDetailSidebar from "@/components/location-detail-sidebar";
 
 const GoogleMapsWidget = dynamic(

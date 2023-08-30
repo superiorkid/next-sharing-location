@@ -279,6 +279,9 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
                     {...field}
                   />
                 </FormControl>
+                <FormDescription>
+                  Contoh: https://yourwebsite.com
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

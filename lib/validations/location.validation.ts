@@ -18,7 +18,7 @@ export const locationSchema = z.object({
 
   // contact field (optional field)
   whatsapp: asOptionalField(z.string()),
-  website: asOptionalField(z.string().refine((val) => validator.isURL(val))),
+  website: asOptionalField(z.string()),
   instagram: asOptionalField(z.string()),
   facebook: asOptionalField(z.string()),
 });
