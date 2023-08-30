@@ -25,7 +25,7 @@ function FilteredTabs({ categories, params }: FilteredTabsProps) {
       <Select
         value={params}
         onValueChange={(value) => {
-          if (value !== "") {
+          if (value) {
             router.push(`/explore?category=${value}`);
           } else {
             router.push("/explore");
