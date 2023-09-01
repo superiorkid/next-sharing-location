@@ -46,8 +46,8 @@ function Coordinates<T extends FieldValues>({
       <SheetTrigger asChild>
         <Button className="block w-full" variant="outline" disabled={isLoading}>
           {position
-            ? `Current Position: ${JSON.stringify(position)}`
-            : "Kordinat"}
+            ? `Koordinat tempat: ${JSON.stringify(position)}`
+            : "Pilih Koordinat"}
         </Button>
       </SheetTrigger>
       <SheetContent side="top" className="max-h-[87dvh]">

@@ -41,8 +41,8 @@ function AddCategoryForm() {
       createNewCategory(values)
         .then((response) => {
           toast({
-            title: "Add new category",
-            description: "Success add new category",
+            title: "Tambah Kategori",
+            description: "Berhasil menambahkan kategori baru",
           });
           form.reset();
           router.push("/dashboard/admin/categories");
@@ -50,8 +50,8 @@ function AddCategoryForm() {
         .catch((error) => {
           toast({
             variant: "destructive",
-            title: "Add new category",
-            description: "Error add new category",
+            title: "Tambah Kategori",
+            description: "Gagal menambahkan kategori baru",
           });
         });
     });

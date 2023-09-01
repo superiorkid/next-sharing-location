@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Select,
   SelectContent,
@@ -10,26 +10,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Category } from ".prisma/client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { usePaginationContext } from "@/context/pagination-ctx";
 
 interface FilteredTabsProps {
   categories: Category[] | null;
-  params: string;
 }
 
-function FilteredTabs({ categories, params }: FilteredTabsProps) {
+function FilteredTabs({ categories }: FilteredTabsProps) {
+  // @ts-ignore
+  const { currentPage, setCurrentPage } = usePaginationContext();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams]
+  );
 
   return (
     <div className="flex space-x-3 mb-5">
       <Select
-        value={params}
+        value={(searchParams.get("category") as string) ?? ""}
         onValueChange={(value) => {
-          if (value !== "") {
-            router.push(`/explore?category=${value}`);
+          if (value.trim().length === 0) {
+            router.push(pathname);
           } else {
-            router.push("/explore");
+            router.push(pathname + "?" + createQueryString("category", value));
           }
+
+          setCurrentPage((currentPage: number) => 0);
         }}
       >
         <SelectTrigger className="w-[120px]">

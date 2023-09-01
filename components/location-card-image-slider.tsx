@@ -29,21 +29,19 @@ function LocationCardImageSlider({
       loop
     >
       {images.map((image, index) => (
-        <React.Fragment key={index}>
-          <SwiperSlide>
-            <Image
-              loader={imageKitLoader}
-              priority
-              src={image}
-              alt="contoh gambar"
-              width={500}
-              height={500}
-              className={cn(
-                `object-cover w-full rounded-md hover:scale-105 h-[256px] -z-10 ${className}`
-              )}
-            />
-          </SwiperSlide>
-        </React.Fragment>
+        <SwiperSlide key={index}>
+          <Image
+            loader={imageKitLoader}
+            priority
+            src={image}
+            alt="contoh gambar"
+            width={500}
+            height={500}
+            className={cn(
+              `object-cover w-full rounded-md hover:scale-105 h-[256px] -z-10 ${className}`
+            )}
+          />
+        </SwiperSlide>
       ))}
     </Swiper>
   );

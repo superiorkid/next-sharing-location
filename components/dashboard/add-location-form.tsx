@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { Category } from ".prisma/client";
 import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LatLng } from "leaflet";
@@ -42,6 +42,7 @@ interface AddLocationFormProps {
 }
 
 function AddLocationForm({ categories }: AddLocationFormProps) {
+  const pathname = usePathname();
   const router = useRouter();
   const { toast } = useToast();
   const [position, setPosition] = useState<LatLng | null>(null);
@@ -84,16 +85,16 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
       addLocation(formData)
         .then((response) => {
           toast({
-            title: "Add new location",
-            description: "Successfully added new location",
+            title: "Tambah Lokasi Baru",
+            description: "Berhasil menambahkan lokasi baru",
           });
-          router.push("/explore");
+          router.push(pathname);
         })
         .catch((error) => {
           toast({
             variant: "destructive",
-            title: "Error",
-            description: "Error while adding new location",
+            title: "Terjadi Kesalahan",
+            description: "Terjadi kesalahan saat menambah lokasi baru ",
           });
         });
     });
@@ -237,7 +238,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
         </FormItem>
 
         {/*Daftar Kontak*/}
-        <div className="grid grid-cols-2 gap-4 bg-gray-100 dark:bg-primary-foreground p-4 rounded-md">
+        <div className="grid grid-cols-2 gap-4 bg-emerald-50 dark:bg-primary-foreground p-4 rounded-md">
           <FormField
             control={form.control}
             name="whatsapp"
@@ -341,11 +342,11 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
         >
           {isPending ? (
             <span>
-              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Adding
-              location...
+              <SvgSpinners8DotsRotate className="w-4 h-4 inline mr-2" /> Tambah
+              Lokasi...
             </span>
           ) : (
-            "Add Location"
+            "Tambah Lokasi"
           )}
         </Button>
       </form>
