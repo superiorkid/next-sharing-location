@@ -17,10 +17,10 @@ export const metadata: Metadata = {
 };
 
 interface ExplorePageProps {
-  searchParams: { category?: string };
+  searchParams: { category?: string; sort?: "desc" | "asc" };
 }
 
-async function Page({ searchParams: { category } }: ExplorePageProps) {
+async function Page({ searchParams: { category, sort } }: ExplorePageProps) {
   const categories = await getCategories();
   // const checkCategory = categories?.some((val) => val.name === category);
   // const locations =
@@ -28,7 +28,7 @@ async function Page({ searchParams: { category } }: ExplorePageProps) {
   //     ? await getLocations()
   //     : await getLocationByCategory(category as string);
 
-  const locations = await getInfiniteLocations(0, category);
+  const locations = await getInfiniteLocations(0, category, sort);
 
   return (
     <>
@@ -53,7 +53,7 @@ async function Page({ searchParams: { category } }: ExplorePageProps) {
               name={location.name}
             />
           ))}
-          <LoadMore category={category} />
+          <LoadMore category={category} sort={sort} />
         </section>
 
         {/*<section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">*/}

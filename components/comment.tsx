@@ -4,7 +4,6 @@ import CommentForm from "@/components/comment-form";
 import { getLocationComments } from "@/_actions/location.action";
 import moment from "moment";
 import UserCard from "@/components/user-card";
-import { EditorVoidOptions } from "slate";
 import getCurrentUser from "@/_actions/get-current-user";
 
 interface CommentProps {

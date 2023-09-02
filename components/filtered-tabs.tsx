@@ -4,13 +4,15 @@ import React, { useCallback } from "react";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Category } from ".prisma/client";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { usePaginationContext } from "@/context/pagination-ctx";
 
 interface FilteredTabsProps {
@@ -34,12 +36,17 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
   );
 
   return (
-    <div className="flex space-x-3 mb-5">
+    <div className="flex space-x-3 mb-5 items-center">
       <Select
         value={(searchParams.get("category") as string) ?? ""}
         onValueChange={(value) => {
           if (value.trim().length === 0) {
-            router.push(pathname);
+            const params = new URLSearchParams(searchParams);
+            params.delete("category");
+
+            router.push(
+              pathname + params.has("sort") && "?" + params.toString()
+            );
           } else {
             router.push(pathname + "?" + createQueryString("category", value));
           }
@@ -50,14 +57,39 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
         <SelectTrigger className="w-[120px]">
           <SelectValue placeholder="Kategori" />
         </SelectTrigger>
+
         <SelectContent>
-          <SelectItem value="">Semua</SelectItem>
-          <SelectSeparator />
-          {categories?.map((category) => (
-            <SelectItem key={category.id} value={category.name}>
-              <span className="capitalize">{category.name}</span>
-            </SelectItem>
-          ))}
+          <SelectGroup>
+            <SelectLabel className="pl-2">
+              Saring berdasarkan kategori
+            </SelectLabel>
+            <SelectSeparator />
+            <SelectItem value="">Semua</SelectItem>
+            {categories?.map((category) => (
+              <SelectItem key={category.id} value={category.name}>
+                <span className="capitalize">{category.name}</span>
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
+      <Select
+        value={searchParams.get("sort") ?? "desc"}
+        onValueChange={(value) => {
+          router.push(pathname + "?" + createQueryString("sort", value));
+        }}
+      >
+        <SelectTrigger className="w-[187px]">
+          <SelectValue placeholder="Filter berdasarkan tanggal uplaod" />
+        </SelectTrigger>
+        <SelectContent className="min-w-0">
+          <SelectGroup>
+            <SelectLabel className="pl-2">Urutkan berdasarkan</SelectLabel>
+            <SelectSeparator />
+            <SelectItem value="desc">Tanggal: Baru ke lama</SelectItem>
+            <SelectItem value="asc">Tanggal: Lama ke baru</SelectItem>
+          </SelectGroup>
         </SelectContent>
       </Select>
     </div>

@@ -10,9 +10,10 @@ import { usePaginationContext } from "@/context/pagination-ctx";
 
 interface LoadMoreProps {
   category?: string;
+  sort?: "asc" | "desc";
 }
 
-function LoadMore({ category }: LoadMoreProps) {
+function LoadMore({ category, sort }: LoadMoreProps) {
   // @ts-ignore
   const { currentPage, setCurrentPage } = usePaginationContext();
 
@@ -24,7 +25,7 @@ function LoadMore({ category }: LoadMoreProps) {
   const loadMoreLocations = useCallback(async () => {
     const nextPage = currentPage + 1;
     const newLocations =
-      (await getInfiniteLocations(nextPage, category ?? undefined)) ?? [];
+      (await getInfiniteLocations(nextPage, category ?? undefined, sort)) ?? [];
     if (searchParams.get("category")) {
       setLocations((prevLocations) => newLocations);
     } else {

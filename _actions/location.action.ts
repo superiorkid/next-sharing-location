@@ -25,7 +25,11 @@ export const getLocations = async () => {
   }
 };
 
-export const getInfiniteLocations = async (page: number, category?: string) => {
+export const getInfiniteLocations = async (
+  page: number,
+  category?: string,
+  sort: "desc" | "asc" = "desc"
+) => {
   const perPage: number = 10;
   try {
     return await prisma.location.findMany({
@@ -37,7 +41,7 @@ export const getInfiniteLocations = async (page: number, category?: string) => {
       skip: page * perPage,
       take: perPage,
       orderBy: {
-        createdAt: "desc",
+        createdAt: sort,
       },
     });
   } catch (error) {
