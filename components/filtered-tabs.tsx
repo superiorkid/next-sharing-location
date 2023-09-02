@@ -54,7 +54,7 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
           setCurrentPage((currentPage: number) => 0);
         }}
       >
-        <SelectTrigger className="w-[120px] h-8 focus:ring-0 focus:ring-offset-0">
+        <SelectTrigger className="w-[120px] h-8 focus:ring-0 focus:ring-offset-0 bg-foreground text-background">
           <SelectValue placeholder="Kategori" />
         </SelectTrigger>
 
@@ -80,7 +80,7 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
           router.push(pathname + "?" + createQueryString("sort", value));
         }}
       >
-        <SelectTrigger className="w-[187px] h-8 focus:ring-0 focus:ring-offset-0">
+        <SelectTrigger className="w-[187px] h-8 focus:ring-0 focus:ring-offset-0 bg-foreground text-background">
           <SelectValue placeholder="Filter berdasarkan tanggal uplaod" />
         </SelectTrigger>
         <SelectContent className="min-w-0">
