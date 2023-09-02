@@ -88,7 +88,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             title: "Tambah Lokasi Baru",
             description: "Berhasil menambahkan lokasi baru",
           });
-          router.push("/explore");
+          // router.push("/explore");
         })
         .catch((error) => {
           toast({

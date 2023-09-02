@@ -7,6 +7,8 @@ import getCurrentUser from "@/_actions/get-current-user";
 import { revalidateTag } from "next/cache";
 import { Prisma } from ".prisma/client";
 import { NextResponse } from "next/server";
+import { addLocationSchema } from "@/lib/validations/location.validation";
+import { z } from "zod";
 
 export const getLocations = async () => {
   try {
@@ -107,6 +109,10 @@ export const addLocation = async (values: FormData) => {
   const whatsapp = getValue<string | null>("whatsapp")?.toLowerCase();
 
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
+
+  if (!coordinate) {
+    throw new Error("Coordinate tidak boleh kosong");
+  }
 
   const uploadPromises = images.map((image) => {
     return new Promise(async (resolve, reject) => {

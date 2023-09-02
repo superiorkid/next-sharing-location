@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { asOptionalField } from "@/lib/validations/optional-string";
-import validator from "validator";
 
 export const locationSchema = z.object({
   name: z
