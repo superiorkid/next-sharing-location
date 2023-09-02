@@ -36,7 +36,7 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
   );
 
   return (
-    <div className="flex space-x-3 mb-5 items-center">
+    <div className="flex space-x-3 mb-8 items-center">
       <Select
         value={(searchParams.get("category") as string) ?? ""}
         onValueChange={(value) => {
@@ -54,7 +54,7 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
           setCurrentPage((currentPage: number) => 0);
         }}
       >
-        <SelectTrigger className="w-[120px]">
+        <SelectTrigger className="w-[120px] h-8 focus:ring-0 focus:ring-offset-0">
           <SelectValue placeholder="Kategori" />
         </SelectTrigger>
 
@@ -80,7 +80,7 @@ function FilteredTabs({ categories }: FilteredTabsProps) {
           router.push(pathname + "?" + createQueryString("sort", value));
         }}
       >
-        <SelectTrigger className="w-[187px]">
+        <SelectTrigger className="w-[187px] h-8 focus:ring-0 focus:ring-offset-0">
           <SelectValue placeholder="Filter berdasarkan tanggal uplaod" />
         </SelectTrigger>
         <SelectContent className="min-w-0">
