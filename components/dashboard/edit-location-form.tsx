@@ -366,7 +366,7 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
 
           <Button
             variant="destructive"
-            type="submit"
+            type="button"
             className="min-w-[187px] w-full"
             disabled={isPending}
             onClick={() => router.back()}
