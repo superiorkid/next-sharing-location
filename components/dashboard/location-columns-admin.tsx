@@ -56,7 +56,10 @@ export const locationColumnsAdmin: ColumnDef<
       const slug = row.original.slug;
 
       return (
-        <Link href={`/location/${slug}`} className="hover:cursor-pointer">
+        <Link
+          href={`/location/${slug}`}
+          className="hover:cursor-pointer hover:underline"
+        >
           {name as string}
         </Link>
       );

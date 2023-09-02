@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
 import PhotoViewProvider from "@/providers/photo-view-provider";
+import { PaginationContextProvider } from "@/context/pagination-ctx";
 
 const circularStdBook = localFont({
   src: "./CircularStd-Book.otf",
@@ -25,11 +26,13 @@ export default function RootLayout({
       <body className={cn(circularStdBook.className)}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <PhotoViewProvider>
-              <Navigation />
-              <main className="min-h-[90dvh] relative">{children}</main>
-              <Footer />
-            </PhotoViewProvider>
+            <PaginationContextProvider>
+              <PhotoViewProvider>
+                <Navigation />
+                <main className="min-h-[90dvh] relative">{children}</main>
+                <Footer />
+              </PhotoViewProvider>
+            </PaginationContextProvider>
           </ThemeProvider>
         </AuthProvider>
         <Toaster />

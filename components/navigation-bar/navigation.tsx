@@ -9,6 +9,16 @@ import { Theme } from "@/components/navigation-bar/theme";
 import AuthPopup from "@/components/navigation-bar/auth-popup";
 import UserMenu from "@/components/navigation-bar/user-menu";
 import getCurrentUser from "@/_actions/get-current-user";
+import { Button, buttonVariants } from "@/components/ui/button";
+import MaterialSymbolsAddCircleOutline from "@/components/icons/MaterialSymbolsAddCircleOutline";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 async function Navigation() {
   const session = await getCurrentUser();

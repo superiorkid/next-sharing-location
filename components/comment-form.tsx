@@ -17,6 +17,7 @@ import {
 import { addNewComment } from "@/_actions/comment.action";
 import { useToast } from "@/components/ui/use-toast";
 import addCategoryForm from "@/components/dashboard/add-category-form";
+import SvgSpinners8DotsRotate from "@/components/icons/SvgSpinners8DotsRotate";
 
 interface CommentFormProps {
   slug: string;
@@ -79,7 +80,13 @@ function CommentForm({ slug }: CommentFormProps) {
           className="w-[120px]"
           disabled={isPending}
         >
-          Kirim
+          {isPending ? (
+            <>
+              <SvgSpinners8DotsRotate className="w-4 h-4 mr-2" /> Mengirim...
+            </>
+          ) : (
+            "Kirim"
+          )}
         </Button>
       </form>
     </Form>

@@ -215,7 +215,7 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
 
                 {categories?.map((category, index) => (
                   <option
-                    key={index}
+                    key={category.id}
                     disabled={isPending}
                     value={category.name}
                   >
