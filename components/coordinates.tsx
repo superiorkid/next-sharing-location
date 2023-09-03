@@ -59,7 +59,7 @@ function Coordinates<T extends FieldValues>({
             center={L.latLng(-8.6510907, 116.5299819)}
             zoom={13}
             scrollWheelZoom={true}
-            style={{ height: 765 }}
+            style={{ height: 559 }}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -142,7 +142,10 @@ function LivePosition<T extends FieldValues>({
             state.longitude as number
           );
           setPosition(latlng);
-          map.flyTo(latlng ?? L.latLng(-8.6510907, 116.5299819), 13);
+          map.flyTo(
+            latlng ?? L.latLng(-8.6510907, 116.5299819),
+            map.getMaxZoom()
+          );
           setValue(name, position as PathValue<T, Path<T>>, {
             shouldValidate: true,
           });

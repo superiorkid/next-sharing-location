@@ -90,11 +90,11 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           });
           // router.push("/explore");
         })
-        .catch((error) => {
+        .catch((error: Error) => {
+          console.log(error.message);
           toast({
             variant: "destructive",
-            title: "Terjadi Kesalahan",
-            description: "Terjadi kesalahan saat menambah lokasi baru ",
+            title: error.message,
           });
         });
     });

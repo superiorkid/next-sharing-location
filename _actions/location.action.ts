@@ -111,7 +111,19 @@ export const addLocation = async (values: FormData) => {
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
 
   if (!coordinate) {
+    console.log("coordinate tidak boleh kosong");
     throw new Error("Coordinate tidak boleh kosong");
+  }
+
+  const slug = slugify(name!);
+  const checkLocation = await prisma.location.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  if (checkLocation) {
+    throw new Error("lokasi sudah terdaftar.");
   }
 
   const uploadPromises = images.map((image) => {
@@ -137,26 +149,15 @@ export const addLocation = async (values: FormData) => {
     });
   });
 
+  const checkCategory = await prisma.category.findUnique({
+    where: {
+      name: category as string,
+    },
+  });
+
+  const photos = await Promise.all(uploadPromises);
+
   try {
-    const slug = slugify(name!);
-    const checkLocation = await prisma.location.findUnique({
-      where: {
-        slug,
-      },
-    });
-
-    if (checkLocation) {
-      throw new Error("lokasi sudah terdaftar.");
-    }
-
-    const checkCategory = await prisma.category.findUnique({
-      where: {
-        name: category as string,
-      },
-    });
-
-    const photos = await Promise.all(uploadPromises);
-
     const newLocation = await prisma.location.create({
       data: {
         slug,
@@ -181,10 +182,9 @@ export const addLocation = async (values: FormData) => {
         },
       },
     });
-
     revalidateTag("location");
     return "new location added successfully";
-  } catch (error) {
+  } catch (e) {
     throw new Error("terjadi kesalahan pada server.");
   }
 };
