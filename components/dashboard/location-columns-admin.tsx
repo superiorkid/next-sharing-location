@@ -115,9 +115,7 @@ export const locationColumnsAdmin: ColumnDef<
   },
   {
     accessorKey: "category",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Kategori" />
-    ),
+    header: "Category",
     cell: ({ row }) => {
       const category = row.getValue("category") as Category;
       return <Badge variant="secondary">{category.name as string}</Badge>;

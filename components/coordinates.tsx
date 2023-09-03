@@ -142,14 +142,14 @@ function LivePosition<T extends FieldValues>({
             state.longitude as number
           );
           setPosition(latlng);
+          setValue(name, position as PathValue<T, Path<T>>, {
+            shouldValidate: true,
+          });
           map.flyTo(
             latlng ?? L.latLng(-8.6510907, 116.5299819),
             map.getMaxZoom()
           );
-          setValue(name, position as PathValue<T, Path<T>>, {
-            shouldValidate: true,
-          });
-          // map.setView(latlng ?? [-6.2188034, 106.7974919], 13);
+          // map.setView(latlng ?? [-6.2188034, 106.7974919], map.getMaxZoom());
         }}
       >
         <TablerCurrentLocation className="w-5 h-5" />

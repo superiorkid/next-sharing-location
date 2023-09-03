@@ -26,14 +26,14 @@ function AuthPopup() {
     signIn(provider, { redirect: true, callbackUrl: "/" })
       .then((response) => {
         toast({
-          title: "Just a moment...",
-          description: `Redirect to ${provider}`,
+          title: "Tunggu sesaat...",
+          description: `Dialihkan ke ${provider}`,
         });
       })
       .catch((error) => {
         toast({
           variant: "destructive",
-          title: "Something went wrong",
+          title: "Terjadi kesalahan",
           description: "Invalid credentials",
         });
       })
@@ -50,8 +50,10 @@ function AuthPopup() {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
-          <DialogDescription>to continue using this app.</DialogDescription>
+          <DialogTitle>Masuk</DialogTitle>
+          <DialogDescription>
+            untuk lanjut menggunakan aplikasi ini.
+          </DialogDescription>
         </DialogHeader>
         <DialogBody className="space-y-2.5">
           <Button
@@ -61,7 +63,7 @@ function AuthPopup() {
             disabled={isLoading}
           >
             <MdiGithub className="mr-2 w-5 h-5" />
-            Continue using github
+            Lanjutkan dengan github
           </Button>
           <Button
             variant="outline"
@@ -70,7 +72,7 @@ function AuthPopup() {
             disabled={isLoading}
           >
             <MdiGoogle className="mr-2 w-5 h-5" />
-            Continue using google
+            Lanjutkan dengan google
           </Button>
         </DialogBody>
       </DialogContent>
