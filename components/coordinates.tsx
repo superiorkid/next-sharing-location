@@ -18,7 +18,7 @@ import {
   useMapEvents,
 } from "react-leaflet";
 import L, { Icon, LatLng, LeafletMouseEvent } from "leaflet";
-import { FieldValues, Path, PathValue, UseFormSetValue } from "react-hook-form";
+import {FieldValues, Path, PathValue, UseFormGetValues, UseFormSetValue} from "react-hook-form";
 import Control from "react-leaflet-custom-control";
 import { useGeolocation } from "@uidotdev/usehooks";
 import TablerCurrentLocation from "@/components/icons/TablerCurrentLocation";
@@ -29,6 +29,7 @@ interface CoordinatesProps<TFieldVallues extends FieldValues>
   extends React.HTMLAttributes<HTMLButtonElement> {
   name: Path<TFieldVallues>;
   setValue: UseFormSetValue<TFieldVallues>;
+  getValue: UseFormGetValues<TFieldVallues>;
   isLoading: boolean;
   position: LatLng | null;
   setPosition: React.Dispatch<React.SetStateAction<LatLng | null>>;
@@ -39,7 +40,7 @@ function Coordinates<T extends FieldValues>({
   setValue,
   position,
   setPosition,
-  isLoading,
+  isLoading, getValue
 }: CoordinatesProps<T>) {
   return (
     <Sheet>
@@ -56,7 +57,8 @@ function Coordinates<T extends FieldValues>({
             Pilih titik koordinat?
           </SheetTitle>
           <MapContainer
-            center={L.latLng(-8.6510907, 116.5299819)}
+            // @ts-ignore
+            center={getValue("coordinate") ?? L.latLng(-8.6510907, 116.5299819)}
             zoom={13}
             scrollWheelZoom={true}
             style={{ height: 559 }}
@@ -108,7 +110,7 @@ function LocationMarker<T extends FieldValues>({
       map.locate();
       const latlng = L.latLng(e.latlng.lat, e.latlng.lng);
       setPosition(latlng);
-      setValue(name, position as PathValue<T, Path<T>>, {
+      setValue(name, latlng as PathValue<T, Path<T>>, {
         shouldValidate: true,
       });
     },
@@ -142,7 +144,7 @@ function LivePosition<T extends FieldValues>({
             state.longitude as number
           );
           setPosition(latlng);
-          setValue(name, position as PathValue<T, Path<T>>, {
+          setValue(name, latlng as PathValue<T, Path<T>>, {
             shouldValidate: true,
           });
           map.flyTo(

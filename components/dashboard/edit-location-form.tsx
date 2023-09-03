@@ -182,6 +182,8 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
               name="coordinate"
               // @ts-ignore
               setValue={form.setValue}
+              // @ts-ignore
+              getValue={form.getValues}
               isLoading={isPending}
               position={position}
               setPosition={setPosition}

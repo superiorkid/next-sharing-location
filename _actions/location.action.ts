@@ -110,6 +110,8 @@ export const addLocation = async (values: FormData) => {
 
   const images: File[] | null = values.getAll("images[]") as unknown as File[];
 
+  console.log(coordinate)
+
   if (!coordinate) {
     console.log("coordinate tidak boleh kosong");
     throw new Error("Coordinate tidak boleh kosong");
