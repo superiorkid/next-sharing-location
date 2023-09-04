@@ -33,6 +33,7 @@ interface CoordinatesProps<TFieldVallues extends FieldValues>
   isLoading: boolean;
   position: LatLng | null;
   setPosition: React.Dispatch<React.SetStateAction<LatLng | null>>;
+  variant: "edit" | "add"
 }
 
 function Coordinates<T extends FieldValues>({
@@ -40,7 +41,8 @@ function Coordinates<T extends FieldValues>({
   setValue,
   position,
   setPosition,
-  isLoading, getValue
+  isLoading, getValue,
+    variant
 }: CoordinatesProps<T>) {
   return (
     <Sheet>
@@ -58,7 +60,7 @@ function Coordinates<T extends FieldValues>({
           </SheetTitle>
           <MapContainer
             // @ts-ignore
-            center={getValue("coordinate") ?? L.latLng(-8.6510907, 116.5299819)}
+            center={variant === "add" ? L.latLng(-8.6510907, 116.5299819) : getValue("coordinate")}
             zoom={13}
             scrollWheelZoom={true}
             style={{ height: 559 }}

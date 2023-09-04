@@ -179,6 +179,7 @@ function EditLocationForm({ categories, location }: EditLocationFormProps) {
           </FormLabel>
           <FormControl>
             <Coordinate
+                variant="edit"
               name="coordinate"
               // @ts-ignore
               setValue={form.setValue}

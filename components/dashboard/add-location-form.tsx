@@ -88,7 +88,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             title: "Tambah Lokasi Baru",
             description: "Berhasil menambahkan lokasi baru",
           });
-           router.push("/explore");
+          router.push("/explore");
         })
         .catch((error: Error) => {
           console.log(error.message);
@@ -123,6 +123,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="description"
@@ -141,6 +142,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="address"
@@ -161,6 +163,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
+
         <FormItem>
           <FormLabel
             className={cn(form.formState.errors.coordinate && "text-rose-500")}
@@ -169,9 +172,12 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
           </FormLabel>
           <FormControl>
             <Coordinate
+              variant="add"
               name="coordinate"
               // @ts-ignore
               setValue={form.setValue}
+              // @ts-ignore
+              getValue={form.getValues}
               isLoading={isPending}
               position={position}
               setPosition={setPosition}
@@ -181,6 +187,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             {form.formState.errors.coordinate?.message as string}
           </span>
         </FormItem>
+
         <FormField
           control={form.control}
           name="category"
@@ -219,6 +226,7 @@ function AddLocationForm({ categories }: AddLocationFormProps) {
             </FormItem>
           )}
         />
+
         <FormItem>
           <FormLabel
             className={cn(form.formState.errors.photos && "text-rose-500")}
